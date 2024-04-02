@@ -1,5 +1,5 @@
 /**
- * @author ercarval - topi
+ * @author eduardo.bisso - dev-builder
  */
 @isTest
 public class FilterTest {
