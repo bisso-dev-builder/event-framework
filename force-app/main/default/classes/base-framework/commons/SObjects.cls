@@ -4,6 +4,18 @@
  */
 public class SObjects {
 
+    static final Map<String, Schema.SObjectType> describer = Schema.getGlobalDescribe();
+
+    public static Schema.SObjectType getObjectType (String objectName) {
+        return describer.get(objectName);
+    }
+
+    public static Map<String, Schema.SObjectField> getObjectFields (String objectName) {
+
+        return getObjectType(objectName).getDescribe().fields.getMap();
+ 
+    }
+
     public static Object getFieldValue(SObject record, String fieldName) {
 
         if (record == null) return null;
@@ -55,9 +67,7 @@ public class SObjects {
 
         if (record == null) return null;
 
-        Schema.DescribeSObjectResult describer = record.getSObjectType().getDescribe();
-        
-        return describer.getName();
+        return record.getSObjectType().getDescribe().getName();
     }
 
     public static Map<String,SObject> newEmptyMap (List<SObject> records) {
