@@ -4,12 +4,21 @@
 public inherited sharing virtual class EventQueueRepository 
                                             extends AbstractRepository {
 
-    public EventQueueRepository() {
-    }    
-
+    virtual
     public EventQueue__c findById (String id) {
 
-        return [SELECT Id FROM EventQueue__c];
+        List<EventQueue__c> events = findByIds( new List<String>{id} );     
+
+        return (EventQueue__c) Lists.getFirstOrNull(events);
+    }
+
+    public List<EventQueue__c> findByIds (List<String> ids) {
+
+        return [SELECT Id, EventName__c, ExternalId__c
+                    , DocumentNumber__c, CorrelatedNumber__c, SalesforceObjectId__c
+                    , RetryCount__c , IsRetryDisabled__c , Status__c , DetailedStatus__c        
+                FROM EventQueue__c
+                WHERE Id IN :ids];
     }
 
     public EventConfiguration__mdt findConfigByName (String name) {

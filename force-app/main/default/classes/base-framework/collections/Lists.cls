@@ -72,6 +72,10 @@ public class Lists {
         return records == null || records.isEmpty();
     }
 
+    public static Boolean isNotEmpty (List<Object> records) {
+        return !isEmpty (records);
+    }
+
     public static List<Object> removeDuplicateLines(List<Object> records) {
         Set<Object> recordsSet = new Set<Object>(records);
         return new List<Object>(recordsSet);
@@ -82,6 +86,10 @@ public class Lists {
         recordsSet.remove('');
         recordsSet.remove(null);
         return new List<Object>(recordsSet);
+    }
+
+    public static SObject getFirstOrNull (List<SObject> records) {
+        return Lists.isNotEmpty(records) ? records.get(0) : null;
     }
     
 }

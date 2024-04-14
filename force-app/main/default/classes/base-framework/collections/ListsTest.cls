@@ -13,7 +13,7 @@ public class ListsTest {
     }
 
     @isTest
-    public static void givenSomeSObjetWhenPullIdsThenReturnListOfIds () {
+    public static void shouldExtractIdsFromSObjectCollection () {
 
         List<Account> accounts = setup();
 
@@ -27,7 +27,7 @@ public class ListsTest {
     }
 
     @isTest
-    public static void givenSomeSObjetWhenGetSetOfIdsThenReturnSetOfIds () {
+    public static void shouldExtractSetOfIdsFromSObjectCollection () {
 
         List<Account> accounts = setup();
 
@@ -42,7 +42,7 @@ public class ListsTest {
 
 
     @isTest
-    public static void givenSomeSObjetWhenPullNameFieldThenReturnListOfNames () {
+    public static void shouldPullFieldListFromSObjectCollection () {
 
         List<Account> accounts = setup();
 

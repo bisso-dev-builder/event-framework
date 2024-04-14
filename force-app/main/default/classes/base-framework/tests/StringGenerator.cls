@@ -11,16 +11,12 @@ public class StringGenerator {
         return generate (length, CharType.ALPHA_NUMERIC);
     }
 
-    public static Integer numeric (Integer length) {
-        return Integer.valueOf( generate (length, CharType.NUMERIC) );
+    public static Long numeric (Integer length) {
+        return numeric (length, 0).longValue();
     }
 
-    public static Integer numeric (Integer length, Integer decimalPlaces) {
-        return Integer.valueOf( generate (length, CharType.NUMERIC) );
-    }
-
-    public static Decimal generateDecimal(Integer length, Integer decimalPlaces) {
-
+    public static Decimal numeric (Integer length, Integer decimalPlaces) {
+        
         if ( decimalPlaces == null || decimalPlaces < 0 ) {
             decimalPlaces = 0;
         }
@@ -29,21 +25,21 @@ public class StringGenerator {
         String integerValue = generate(length - decimalPlaces, CharType.NUMERIC);
 
         return Decimal.valueOf(integerValue + '.' + decimalPlacesValue);
+
     }
 
     public static String generate (Integer length, String chars ) {
 
-        String[] result = new String[length];
+        String result = '';
 
-        Integer index = 0;
-
-        while (index < length) {
+        for ( Integer index = 0; index < length; index++ ) {
 
             Integer chr = Math.mod(Math.abs(Crypto.getRandomInteger()), chars.length());
-            result[index++] = chars.substring(chr, chr + 1);
+
+            result += chars.substring(chr, chr + 1);
         }
 
-        return String.join(result, '');
+        return result;
     }
 
 }

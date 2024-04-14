@@ -40,22 +40,9 @@ public class IdGenerator {
 
         String prefix = objectPrefix + UserInfo.getUserId().substring(PREFIX_LENGHT, ORG_INSTANCE_RESERVED_LENGHT) + '00000';
 
-        String id = prefix + buildRandom() + (++sequence);
+        String id = prefix + StringGenerator.textWithNumbers(4) + (++sequence);
 
 		return appendSufix(id);
-
-    }
-
-    private static String buildRandom() {
-
-        String randomSequence = '';
-
-        for ( Integer i = 0; i < 4; i++) {
-            Integer idx = Math.mod(Math.abs(Crypto.getRandomInteger()), BASE62_ALPHABET.length());
-            randomSequence += BASE62_ALPHABET.substring(idx, idx+1);
-        }
-
-        return randomSequence;
 
     }
 

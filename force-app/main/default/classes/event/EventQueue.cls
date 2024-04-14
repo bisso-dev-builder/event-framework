@@ -31,6 +31,23 @@ public class EventQueue {
         return this.event.Id;
     }
 
+    public Boolean hasError () {
+        return getStatus() == EventQueueStatusType.ERROR.name();
+    }
+
+    public Boolean isIgnored () {
+        return getStatus() == EventQueueStatusType.IGNORED.name();
+    }
+
+    public Boolean isUnhandled () {
+        return getStatus() == EventQueueStatusType.UNHANDLED.name();
+    }
+
+    public EventQueue withConfiguration (EventConfiguration__mdt config) {
+        this.config = config;
+        return this;
+    }
+
     public EventQueue withStatusDetail (String detailedStatus) {
         this.event.DetailedStatus__c = detailedStatus;
         return this;

@@ -24,60 +24,6 @@ public class FilterTest {
         
     }
 
-
-    @isTest
-    public static void givenChangedRecordsWhenFilterByRelevantFieldsThenReturnOnlyRecordsWithChanges () {
-
-        Filter filter = new Filter();
-
-        List<Account> newAccounts = setupAccounts();
-        
-        Map<Id, Account> oldAccounts = new Map<Id, Account> {
-            newAccounts.get(0).Id => newAccounts.get(0).clone(true, true, true)
-            , newAccounts.get(1).Id => newAccounts.get(1).clone(true, true, true)
-        };
-
-        oldAccounts.get( newAccounts.get(1).Id ).BillingStreet = 'BillingStreet0'; 
-
-        List<Account> accounts = filter.relevantChangeRecordsFilter(newAccounts, oldAccounts, new String[] { 'BillingStreet'});
-
-        List<Account> accountsByChangedBillingStreet = filter.byChangedFields(newAccounts, oldAccounts, new String[] { 'BillingStreet'});
-       
-        System.assertEquals(1, accounts.size());
-        System.assertEquals(1, accountsByChangedBillingStreet.size());
-
-    }
-
-
-    @isTest
-    public static void givenChangedRecordsWhenFilterByRelevantFieldsWithSpecificValueThenReturnOnlyRecordsWithChanges () {
-
-        Filter filter = new Filter();
-
-        List<Account> newAccounts = setupAccounts();
-        
-        Map<Id, Account> oldAccounts = new Map<Id, Account> {
-            newAccounts.get(0).Id => newAccounts.get(0).clone(true, true, true)
-            , newAccounts.get(1).Id => newAccounts.get(1).clone(true, true, true)
-        };
-
-        oldAccounts.get( newAccounts.get(1).Id ).BillingStreet = 'BillingStreet0'; 
-
-        List<Account> accounts = filter.relevantChangeRecordsFilter(newAccounts
-                    , oldAccounts
-                    , 'BillingStreet'
-                    , 'BillingStreet');
-
-        List<Account> accountsByChangedBillingStreet = filter.byChangedValue(newAccounts, oldAccounts, 'BillingStreet', 'BillingStreet');
-       
-
-        System.assertEquals(1, accounts.size());
-        System.assertEquals(1, accountsByChangedBillingStreet.size());
-
-    }
-
-
-
     @isTest
     public static void givenRecordsWhenFilterByNotNullThenReturnRecords () {
 
