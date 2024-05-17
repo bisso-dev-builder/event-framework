@@ -1,5 +1,5 @@
 /**
- * Based on Cristian Biral Code
+ * Add Cristian Biral - SObjectNavigator Code
  * @author eduardo.bisso - dev-builder
  */
 public class SObjects {

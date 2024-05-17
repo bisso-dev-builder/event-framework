@@ -3,13 +3,13 @@
  */
 public virtual class Callout {
 
-    EventOutboundConfig__mdt config;
+    OutboundEventConfig config;
 
     HttpRequestBuilder requestBuilder;
 
     HttpResponseBuilder responseBuilder;
 
-    public Callout(EventOutboundConfig__mdt config) {
+    public Callout(OutboundEventConfig config) {
         this.config = config;
         this.requestBuilder = new RestRequestBuilder(config);
     }

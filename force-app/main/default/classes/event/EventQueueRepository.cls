@@ -16,27 +16,30 @@ public inherited sharing virtual class EventQueueRepository
 
         return [SELECT Id, EventName__c, ExternalId__c
                     , DocumentNumber__c, CorrelatedNumber__c, SalesforceObjectId__c
-                    , RetryCount__c , IsRetryDisabled__c , Status__c , DetailedStatus__c        
+                    , RetryCount__c , IsRetryDisabled__c
+                    , Status__c , DetailedStatus__c        
                 FROM EventQueue__c
                 WHERE Id IN :ids];
     }
 
-    public EventConfiguration__mdt findConfigByName (String name) {
+    public EventConfiguration findConfigByName (String name) {
 
-        return [ SELECT Id 
-                , DeveloperName
-                , CommandClassName__c
-                , EnableTraceLog__c
-                , Retry__c
-                , OutboundConfig__r.CertificateName__c
-                , OutboundConfig__r.EndPoint__c
-                , OutboundConfig__r.Environment__c
-                , OutboundConfig__r.HttpHeaders__c
-                , OutboundConfig__r.HttpMethod__c
-                , OutboundConfig__r.NamedCredencial__c
-                , OutboundConfig__r.ResponseClassName__c
-                , OutboundConfig__r.Timeout__c                
-                FROM EventConfiguration__mdt WHERE DeveloperName =: name];
+        List<EventConfiguration__mdt> configs;
+
+        configs = [ SELECT Id, DeveloperName, CommandClassName__c
+                    , EnableTraceLog__c, OAuthEventName__c
+                    , Retry__c, OutboundConfig__r.CertificateName__c
+                    , OutboundConfig__r.EndPoint__c                    
+                    , OutboundConfig__r.HttpHeaders__c
+                    , OutboundConfig__r.HttpMethod__c
+                    , OutboundConfig__r.NamedCredencial__c
+                    , OutboundConfig__r.ResponseClassName__c
+                    , OutboundConfig__r.Timeout__c
+                    , OutboundConfig__r.UseEnvironmentWithCredential__c                
+                FROM EventConfiguration__mdt 
+                WHERE DeveloperName =: name LIMIT 1];
+
+        return new EventConfiguration ( (EventConfiguration__mdt) Lists.getFirstOrNull(configs) );
 
     }
 

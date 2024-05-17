@@ -5,14 +5,27 @@ public class EventQueue {
 
     EventQueue__c event;
 
-    EventConfiguration__mdt config;
+    EventConfiguration config;
 
+    EventQueueRepository repository;
+    
     public EventQueue() {
-        event = new EventQueue__c();
+        this.event = new EventQueue__c();
+        this.repository = new EventQueueRepository();
     }
 
     public EventQueue(EventQueue__c event) {
+        this();
         this.event = event;
+        this.initialize(this.event.EventName__c);
+    }
+
+    public EventQueue(String eventName) {
+        this( new EventQueue__c (EventName__c = eventName) );
+    }
+
+    public void initialize(String eventName) {
+        this.config = this.repository.findConfigByName(eventName);       
     }
 
     public String getObjectId () {
@@ -43,7 +56,7 @@ public class EventQueue {
         return getStatus() == EventQueueStatusType.UNHANDLED.name();
     }
 
-    public EventQueue withConfiguration (EventConfiguration__mdt config) {
+    public EventQueue withConfiguration (EventConfiguration config) {
         this.config = config;
         return this;
     }
@@ -91,12 +104,23 @@ public class EventQueue {
         return this;        
     }
 
-    public EventConfiguration__mdt getConfig() {
+    public EventConfiguration getConfig() {
         return this.config;
     }
 
-    public EventOutboundConfig__mdt getOutboundConfig() {
-        return this.config.OutboundConfig__r;
+    public OutboundEventConfig getOutboundConfig() {
+        return this.config.getOutboundConfig();
+    }
+
+    public void setRepository (EventQueueRepository repository) {
+        this.repository = repository;
+    }
+ 
+    public EventQueue save () {
+        
+        this.repository.save(this.event);      
+
+        return this;
     }
 
 }

@@ -1,17 +1,18 @@
 /**
  * @author eduardo.bisso - dev-builder
  */
-public class OutboundService {
+public virtual class OutboundService {
 
-    Callout callout;
+    protected Callout callout;
 
-    EventQueue event;
+    protected EventQueue event;
 
     public OutboundService( EventQueue event ) {
         this.event = event;
         this.callout = getCallout (event);
     }
 
+    virtual
     public Object send (Object data) {
 
         try {
