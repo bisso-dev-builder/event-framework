@@ -8,8 +8,12 @@ public virtual class OutboundService {
     protected EventQueue event;
 
     public OutboundService( EventQueue event ) {
+        this (event, new Callout(event) );
+    }
+
+    public OutboundService( EventQueue event, Callout callout) {
         this.event = event;
-        this.callout = getCallout (event);
+        this.callout = callout;
     }
 
     virtual
@@ -29,9 +33,9 @@ public virtual class OutboundService {
 
     }
 
-    virtual
-    public Callout getCallout (EventQueue event) {
-        return new Callout(event.getOutboundConfig());
+    
+    public Callout getCallout () {
+        return this.callout;
     }
 
     public void setCallout (Callout callout) {

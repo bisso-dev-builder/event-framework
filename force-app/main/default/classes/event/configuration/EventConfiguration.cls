@@ -7,6 +7,8 @@ public class EventConfiguration {
     
     OutboundEventConfig outboundConfig;
     
+    String oAuthEventName;
+
     Boolean disabled;
     Boolean enableTraceLog;
     Integer retry;
@@ -25,9 +27,10 @@ public class EventConfiguration {
 
         commandClassName(config.CommandClassName__c)
             .outboundConfig( new OutboundEventConfig(config.OutboundConfig__r))
-            .retryCount( config.Retry__c?.intValue())
-            .enableTraceLog(config.EnableTraceLog__c)
-            .disabled(config.Disabled__c);
+            .retryCount( config.Retry__c?.intValue() ?? 10 )
+            .enableTraceLog(config.EnableTraceLog__c ?? true )
+            .oauthEventName( config.OAuthEventName__c )
+            .disabled(config.Disabled__c ?? false);
     }
 
     public String getCommandClassName() {
@@ -48,6 +51,10 @@ public class EventConfiguration {
 
     public Integer getRetry() {
         return this.retry;
+    }
+
+    public String getOAuthEventName () {
+        return this.oAuthEventName;
     }
 
     public EventConfiguration commandClassName(String commandClassName) {
@@ -74,5 +81,10 @@ public class EventConfiguration {
         this.retry = retry;
         return this;
     }
+
+    public EventConfiguration oauthEventName (String oauthEventName) {
+        this.oAuthEventName = oauthEventName;
+        return this;
+    }    
 
 }

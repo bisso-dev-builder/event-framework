@@ -3,7 +3,7 @@
  */
 public virtual class HttpMethodBuilder {   
     
-    Map<String, HttpMethodBuilder> builders;
+    static Map<String, HttpMethodBuilder> builders;
 
     public HttpMethodBuilder() {
         loadBuilders();
@@ -20,12 +20,16 @@ public virtual class HttpMethodBuilder {
 
     virtual
     public void loadBuilders() {
+
+        if (builders != null) return;
+
         builders = new Map<String, HttpMethodBuilder> {
             'GET' => new HttpQueryStringBuilder(),
-            'POST' => new HttpRestBodyBuilder(),
+            'POST' => new HttpPostBuilder(),
             'PATCH' => new HttpRestBodyBuilder(),
             'DELETE' => new HttpQueryStringBuilder()
         };
+
     }
 
 

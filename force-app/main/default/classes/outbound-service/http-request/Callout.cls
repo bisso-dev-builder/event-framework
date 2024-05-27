@@ -3,26 +3,38 @@
  */
 public virtual class Callout {
 
+    EventQueue event;
+
     OutboundEventConfig config;
 
     HttpRequestBuilder requestBuilder;
 
     HttpResponseBuilder responseBuilder;
 
-    public Callout(OutboundEventConfig config) {
-        this.config = config;
-        this.requestBuilder = new RestRequestBuilder(config);
+    public Callout(EventQueue event) {
+        this( event, new RestRequestBuilder(event) );
     }
+
+    public Callout(EventQueue event, HttpRequestBuilder requestBuilder) {
+        this.event = event;
+        this.config = event.getOutboundConfig();
+        this.requestBuilder = requestBuilder;
+    }    
 
     virtual
     public Object send ( Object requestContent ) {
 
-        HttpResponse response = new Http().send( requestBuilder
-                                                    .withPayload(requestContent)
-                                                    .build() );
+        requestPrepare(requestContent);
+
+        HttpResponse response = new Http().send( this.requestBuilder.build() );
 
         return responseBuilder.buildReponse(response);
 
+    }
+
+    virtual
+    protected void requestPrepare (Object requestContent) {
+        this.requestBuilder.withPayload(requestContent);        
     }
 
     public void setHttpRequestBuilder (HttpRequestBuilder requestBuilder) {

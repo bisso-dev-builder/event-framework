@@ -5,7 +5,7 @@ public virtual class HttpRequestBuilder {
     
     protected HttpRequest request;
 
-    HttpMethodBuilder httpMethodBuilder;
+    protected HttpMethodBuilder httpMethodBuilder;
 
     public HttpRequestBuilder() {
         request = new HttpRequest();
@@ -17,7 +17,7 @@ public virtual class HttpRequestBuilder {
         this.request.setEndpoint(endpoint);
         return this;
     }
-
+    
     public HttpRequestBuilder withTimeout(Integer timeout) {
         this.request.setTimeout(timeout);
         return this;
@@ -67,6 +67,8 @@ public virtual class HttpRequestBuilder {
     public HttpRequest build () {
         return this.request;
     }
+
+
 
 
 }

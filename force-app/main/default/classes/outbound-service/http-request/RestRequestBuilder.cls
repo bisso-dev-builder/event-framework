@@ -2,18 +2,20 @@
  * @author eduardo.bisso - dev-builder
  */
 public virtual class RestRequestBuilder extends HttpRequestBuilder {
+
+    EventQueue event;
     
     OutboundEventConfig config;
 
-    public RestRequestBuilder( OutboundEventConfig config ) {
+    public RestRequestBuilder( EventQueue event ) {
         super();
-        init(config);        
+        this.event = event;
+        this.config = event.getOutboundConfig();
+        setup();        
     }
     
     virtual
-    public void init (OutboundEventConfig config) {
-        
-        this.config = config;
+    public void setup () {
 
         withEndPoint(this.config.getEndPointUrl())
             .withHeaders(this.config.getHttpHeaders())
@@ -22,6 +24,5 @@ public virtual class RestRequestBuilder extends HttpRequestBuilder {
             .withCertificate (this.config.getCertificateName());
             
     }
-
 
 }

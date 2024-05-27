@@ -20,6 +20,46 @@ public virtual class BaseAuthToken {
         this.access_token = accessToken;
     }
 
+    public BaseAuthToken tokenType(String tokenType) {
+        this.token_type = tokenType;
+        return this;
+    }
+
+    public BaseAuthToken issuedAt(String issuedAt) {
+        this.issued_at = issuedAt;
+        return this;
+    }
+
+    public BaseAuthToken clientId(String clientId) {
+        this.client_id = clientId;
+        return this;
+    }
+
+    public BaseAuthToken accessToken(String accessToken) {
+        this.access_token = accessToken;
+        return this;
+    }
+
+    public BaseAuthToken scope(String scope) {
+        this.scope = scope;
+        return this;
+    }
+
+    public BaseAuthToken expiresIn(String expiresIn) {
+        this.expires_in = expiresIn;
+        return this;
+    }
+
+    public BaseAuthToken refreshCount(String refreshCount) {
+        this.refresh_count = refreshCount;
+        return this;
+    }
+
+    public BaseAuthToken status(String status) {
+        this.status = status;
+        return this;
+    }
+    
     override
     public String toString () {
         return JSON.serialize (this, true);

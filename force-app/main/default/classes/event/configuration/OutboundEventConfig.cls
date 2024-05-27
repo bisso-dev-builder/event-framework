@@ -17,20 +17,26 @@ public class OutboundEventConfig {
 
     String responseClassName;
 
+    Boolean useEnvironmentWithCredential;
+
+    @TestVisible
+    OutboundEnvironmentResolver environmentResolver;
+
     public OutboundEventConfig() {
         this.timeout = 12000;
+        this.environmentResolver = new OutboundEnvironmentResolver();
     }
 
     public OutboundEventConfig(EventOutboundConfig__mdt config) {
 
         this();
-
-        endPointUrl(config.EndPoint__c)
+        useEnvironmentWithCredential(config.UseEnvironmentWithCredential__c)
+            .namedCredencial(config.NamedCredencial__c)
+            .endPointUrl(config.EndPoint__c)
             .timeout(config?.Timeout__c?.intValue() ?? 120000)
             .certificateName(config.CertificateName__c)
             .httpMethod(config.HttpMethod__c)
             .httpHeaders(config.HttpHeaders__c)
-            .namedCredencial(config.NamedCredencial__c)
             .responseClassName(config.ResponseClassName__c);
     }
 
@@ -70,8 +76,13 @@ public class OutboundEventConfig {
         return this;
     }
 
+    public OutboundEventConfig useEnvironmentWithCredential(Boolean useEnvironmentWithCredential) {
+        this.useEnvironmentWithCredential = useEnvironmentWithCredential;
+        return this;
+    }
+
     public String getEndPointUrl() {
-        return this.endPointUrl;
+        return buildNamedCredential () + '/' + this.endPointUrl;
     }
 
     public Integer getTimeout() {
@@ -96,6 +107,28 @@ public class OutboundEventConfig {
 
     public String getResponseClassName() {
         return this.responseClassName;
+    }
+
+    private String buildNamedCredential () {
+
+        if ( String.isEmpty(namedCredencial)) return '';
+
+        if ( useEnvironmentWithCredential ) {
+
+            return 'callout:' + namedCredencial + getOutboundEnvironment();
+        }
+
+        return 'callout:' + namedCredencial;
+
+    }
+
+
+    private String getOutboundEnvironment () {
+
+        String outboundEnvironment = environmentResolver.buidOutboundEnvironment();
+
+        return String.isEmpty( outboundEnvironment ) ? '' : '_' + outboundEnvironment;
+
     }
 
 }

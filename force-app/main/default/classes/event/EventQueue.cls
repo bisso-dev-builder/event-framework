@@ -44,6 +44,10 @@ public class EventQueue {
         return this.event.Id;
     }
 
+    public Boolean useCustomOAuthFlow() {
+        return String.isNotEmpty( this.config.getOAuthEventName() );
+    }
+
     public Boolean hasError () {
         return getStatus() == EventQueueStatusType.ERROR.name();
     }
@@ -112,8 +116,19 @@ public class EventQueue {
         return this.config.getOutboundConfig();
     }
 
+    public EventQueue getOAuthEvent() {
+
+        if (!useCustomOAuthFlow()) return null;
+
+        return new EventQueue( this.config.getOAuthEventName() );
+    }
+
     public void setRepository (EventQueueRepository repository) {
         this.repository = repository;
+    }
+
+    public void log () {
+        //
     }
  
     public EventQueue save () {

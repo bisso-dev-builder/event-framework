@@ -13,7 +13,4 @@ public class EventQueueBuilder {
         this.repository = new EventQueueRepository();
         this.event = new EventQueue();
     }
-    
-    public EventQueueBuilder with
-
 }
