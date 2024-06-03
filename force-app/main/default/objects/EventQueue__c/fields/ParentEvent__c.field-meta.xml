@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>ParentEvent__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Related Event</description>
+    <externalId>false</externalId>
+    <label>ParentEvent</label>
+    <referenceTo>EventQueue__c</referenceTo>
+    <relationshipLabel>EventQueues</relationshipLabel>
+    <relationshipName>EventQueues</relationshipName>
+    <required>false</required>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

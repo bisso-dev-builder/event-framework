@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>IsRetryDisabled__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Identify if the retries should be executed for this event. If equal TRUE disable retries even if retry count is bigger than zero (can be used for errors as errors does not require retries)</description>
+    <externalId>false</externalId>
+    <label>IsRetryDisabled</label>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>
