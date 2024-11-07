@@ -8,9 +8,7 @@ public class IdGenerator {
 
     private static final Integer PREFIX_LENGHT = 3;
     private static final Integer ORG_INSTANCE_RESERVED_LENGHT = 5;
-    
-    private static final String BASE62_ALPHABET = '0123456789abcdefghijklmnopqrstuvwqyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    
+       
     private static Integer sequence = 0; 
 
     public static List<SObject> generate ( List<SObject> records ) {
