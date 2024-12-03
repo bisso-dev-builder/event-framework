@@ -3,6 +3,17 @@
  */
 public inherited sharing abstract class AbstractRepository {
 
+    private Boolean allOrNone;
+
+    public AbstractRepository() {
+        allOrNone = false;
+    }
+
+    public AbstractRepository withAllOrNoneEnabled () {
+        this.allOrNone = true;
+        return this;
+    }
+
     virtual
     public SObject save ( SObject aggregate ) {
 
@@ -75,7 +86,7 @@ public inherited sharing abstract class AbstractRepository {
     protected List<Database.UpsertResult> uppsert ( List<SObject> aggregates
                                                 , Schema.SObjectField field ) {
 
-        List<Database.UpsertResult> results = Database.upsert(aggregates, field, false);
+        List<Database.UpsertResult> results = Database.upsert(aggregates, field, allOrNone);
         System.debug(JSON.serialize(results));
         return results;
 
@@ -84,7 +95,7 @@ public inherited sharing abstract class AbstractRepository {
     virtual
     protected List<Database.UpsertResult> uppsert ( List<SObject> aggregates ) {
 
-        List<Database.UpsertResult> results = Database.upsert(aggregates, false);
+        List<Database.UpsertResult> results = Database.upsert(aggregates, allOrNone);
 
         System.debug(JSON.serialize(results));
 
