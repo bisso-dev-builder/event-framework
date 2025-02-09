@@ -16,6 +16,24 @@ public class SObjectsTest {
     }
 
     @isTest
+    public static void shouldGetSObjectValue () {
+
+        String payload = '[ { "Opportunity": { "Account": { "Owner": { "Name": "value 1" } } } }, { "Opportunity": { "Account": { "Owner": { "Name": "value 2" } } } }, { "Opportunity": { "Account": { "Owner": { "Name": "value 3" } } } }, { "Opportunity": { "Account": { "Owner": { "Name": "value 4" } } } } ]';
+
+        List<OpportunityLineItem> opportunityLineItems = (List<OpportunityLineItem>) JSON.deserialize(payload,List<OpportunityLineItem>.class);
+        
+        Assert.isFalse (opportunityLineItems.isEmpty());
+        Assert.areEqual( 4, opportunityLineItems.size());  
+        
+        Assert.areEqual ('value 1', SObjects.getFieldValue( opportunityLineItems.get(0) , 'Opportunity.Account.Owner.Name') );
+        Assert.areEqual ('value 2', SObjects.getFieldValue( opportunityLineItems.get(1) , 'Opportunity.Account.Owner.Name') );
+        Assert.areEqual ('value 3', SObjects.getFieldValue( opportunityLineItems.get(2) , 'Opportunity.Account.Owner.Name') );
+        Assert.areEqual ('value 4', SObjects.getFieldValue( opportunityLineItems.get(3) , 'Opportunity.Account.Owner.Name') );
+        
+        
+    }
+
+    @isTest
     public static void shouldReturnNewObjectInstance() {
         
         SObject account = SObjects.newInstance('Account');
