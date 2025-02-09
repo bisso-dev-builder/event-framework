@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <ApexClass xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
     <status>Active</status>
 </ApexClass>
+=======
+<ApexClass xmlns="urn:metadata.tooling.soap.sforce.com" fqn="Maps">
+    <apiVersion>48.0</apiVersion>
+    <status>Active</status>
+</ApexClass>
+>>>>>>> db231ee1d3249d723cb7ec4e62aba8ed87a280c1

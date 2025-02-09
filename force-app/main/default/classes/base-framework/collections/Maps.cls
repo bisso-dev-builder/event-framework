@@ -3,7 +3,10 @@
  */
 public class Maps {
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> db231ee1d3249d723cb7ec4e62aba8ed87a280c1
     public static Map<String, SObject> indexBy ( String fieldName
                                                 , List<SObject> records  ) {
                                                                     
@@ -15,15 +18,25 @@ public class Maps {
         
             String value = (String) SObjects.getFieldValue(record, fieldName);
             
+<<<<<<< HEAD
             if ( value == null || values.containsKey (value)) continue;          
             
             values.put ( value, record );
 
+=======
+            if ( value == null ) continue;
+            
+            values.put ( value, record );
+>>>>>>> db231ee1d3249d723cb7ec4e62aba8ed87a280c1
         }
         
         return values;
     }
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> db231ee1d3249d723cb7ec4e62aba8ed87a280c1
     public static Map<String, List<SObject>> grouppBy ( String fieldName
                                                      , List<SObject> records  ) {
                                                                 
@@ -35,7 +48,11 @@ public class Maps {
 
         for ( SObject record : records  ) {
         
+<<<<<<< HEAD
             String value = (String) SObjects.getFieldValue(record, fieldName);
+=======
+            String value = (String) SObjects.getFieldValue (record, fieldName);
+>>>>>>> db231ee1d3249d723cb7ec4e62aba8ed87a280c1
             
             if ( String.isEmpty(value)) continue;
             
@@ -46,4 +63,8 @@ public class Maps {
         
         return groupedRecords;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> db231ee1d3249d723cb7ec4e62aba8ed87a280c1
 }
