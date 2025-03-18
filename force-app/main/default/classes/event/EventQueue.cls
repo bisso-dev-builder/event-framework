@@ -8,12 +8,22 @@ public class EventQueue {
     EventConfiguration config;
 
     EventQueueRepository repository;
+
+    Command command;
     
     public EventQueue() {
         this.event = new EventQueue__c();
         this.repository = new EventQueueRepository();
     }
-
+    
+    public EventQueue(EventQueue__c event
+                    , EventConfiguration config
+                    , EventQueueRepository repository) {                        
+        this.event = event;
+        this.config = config;
+        this.repository = repository;
+    }
+    
     public EventQueue(EventQueue__c event) {
         this();
         this.event = event;
@@ -44,8 +54,16 @@ public class EventQueue {
         return this.event.Id;
     }
 
+    public EventQueue__c getSObject() {
+        return this.event;
+    }
+
+    public Integer getRetryCount() {
+        return this.event.RetryCount__c?.intValue() ?? 0;
+    }
+
     public Boolean useCustomOAuthFlow() {
-        return String.isNotEmpty( this.config.getOAuthEventName() );
+        return String.isNotEmpty( this.config?.getOAuthEventName() );
     }
 
     public Boolean hasError () {
@@ -58,6 +76,20 @@ public class EventQueue {
 
     public Boolean isUnhandled () {
         return getStatus() == EventQueueStatusType.UNHANDLED.name();
+    }
+
+    public EventQueue unhandled () {
+        return withStatus(EventQueueStatusType.UNHANDLED);
+    }
+
+    public EventQueue delivered () {
+        
+        if ( !isIgnored() )  {
+            withStatus( EventQueueStatusType.DELIVERED);
+        }
+
+        return clearStatusDetail();
+
     }
 
     public EventQueue withConfiguration (EventConfiguration config) {
@@ -80,6 +112,11 @@ public class EventQueue {
         return this;
     }
 
+    public EventQueue withCommand (Command command) {
+        this.command =  command;
+        return this;
+    }
+
     public EventQueue withError (Exception e) {
         return withError(e, e.getTypeName() + ' :  { ' +  e.getMessage() + ' }' );
     }
@@ -96,6 +133,11 @@ public class EventQueue {
 
     }
 
+    public EventQueue clearStatusDetail () {
+        return withStatusDetail('')
+            .withStackTrace('');
+    }
+
     public EventQueue disableRetry () {
         this.event.RetryCount__c = 0;
         this.event.IsRetryDisabled__c = true;
@@ -104,8 +146,12 @@ public class EventQueue {
 
     public EventQueue decreaseRetry () {
         if (this.event.RetryCount__c == 0) return this;
-        this.event.retryCount__c -=  1;
+        this.event.RetryCount__c -=  1;
         return this;        
+    }
+
+    public Boolean hasHandler () {
+        return getConfig()?.hasCommandHandler() ?? false;
     }
 
     public EventConfiguration getConfig() {
@@ -113,7 +159,7 @@ public class EventQueue {
     }
 
     public OutboundEventConfig getOutboundConfig() {
-        return this.config.getOutboundConfig();
+        return this.config?.getOutboundConfig() ?? null;
     }
 
     public EventQueue getOAuthEvent() {
@@ -125,6 +171,17 @@ public class EventQueue {
 
     public void setRepository (EventQueueRepository repository) {
         this.repository = repository;
+    }
+
+
+    public Command getCommand () {
+
+        if (this.command == null) {
+            this.command = getConfig().getCommand();
+        }
+
+        return this.command;
+
     }
 
     public void log () {

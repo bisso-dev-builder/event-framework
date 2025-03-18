@@ -7,9 +7,7 @@ public class CalloutWithOAuthFlow extends Callout {
 
     Callout oauthCallout;
 
-    public CalloutWithOAuthFlow() {
-        super(event);
-    }
+    HttpAuthentication authentication;
 
     public CalloutWithOAuthFlow(EventQueue event) {
 
@@ -17,14 +15,13 @@ public class CalloutWithOAuthFlow extends Callout {
 
         this.oauthEvent = event.getOAuthEvent();
 
-        this.oauthCallout = new Callout(oauthCallout);
+        this.oauthCallout = new Callout(oauthEvent);
 
     }
 
     public CalloutWithOAuthFlow authenticate (Object oauthRequest) {
         
-
-        
+        return null;
 
     }
 

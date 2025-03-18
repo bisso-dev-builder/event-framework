@@ -18,6 +18,10 @@ public virtual class HttpRequestBuilder {
         return this;
     }
     
+    public String getEndPoint () {
+        return this.request.getEndpoint();
+    }
+
     public HttpRequestBuilder withTimeout(Integer timeout) {
         this.request.setTimeout(timeout);
         return this;
@@ -52,6 +56,7 @@ public virtual class HttpRequestBuilder {
     }
     
     public HttpRequestBuilder withCertificate(String name) {
+        if (String.isEmpty(name)) return this;
         this.request.setClientCertificateName(name);
         return this;
     }

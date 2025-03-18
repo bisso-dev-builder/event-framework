@@ -16,7 +16,8 @@ public class AccountFixtureFactory {
     public static Account newAccount(String name) {
         return new Account(
                    Name = name
-                   , BillingState = StringGenerator.text(2));
+                   , BillingCountry = 'Brazil'
+                   , BillingState = 'São Paulo');
     }
 
     public static Account save(String name) {

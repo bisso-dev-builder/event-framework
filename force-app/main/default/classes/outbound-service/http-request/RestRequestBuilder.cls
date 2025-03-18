@@ -17,6 +17,8 @@ public virtual class RestRequestBuilder extends HttpRequestBuilder {
     virtual
     public void setup () {
 
+        if (config == null) {return;}
+
         withEndPoint(this.config.getEndPointUrl())
             .withHeaders(this.config.getHttpHeaders())
             .withMethod (this.config.getHttpMethod())

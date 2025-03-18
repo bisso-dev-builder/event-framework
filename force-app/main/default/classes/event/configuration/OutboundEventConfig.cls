@@ -28,8 +28,14 @@ public class OutboundEventConfig {
     }
 
     public OutboundEventConfig(EventOutboundConfig__mdt config) {
-
         this();
+        initialize(config);
+    }
+
+    private void initialize (EventOutboundConfig__mdt config) {
+        
+        if (config == null) return;
+
         useEnvironmentWithCredential(config.UseEnvironmentWithCredential__c)
             .namedCredencial(config.NamedCredencial__c)
             .endPointUrl(config.EndPoint__c)
@@ -81,7 +87,13 @@ public class OutboundEventConfig {
         return this;
     }
 
-    public String getEndPointUrl() {
+    public String getEndPointUrl() {    
+        
+        if ( String.isEmpty( buildNamedCredential () ) 
+                && String.isEmpty( this.endPointUrl )  ) {
+            return '';
+        }
+
         return buildNamedCredential () + '/' + this.endPointUrl;
     }
 

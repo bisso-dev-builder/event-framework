@@ -3,6 +3,8 @@
  */
 public class EventConfiguration {
     
+    String eventName;
+    
     String commandClassName;    
     
     OutboundEventConfig outboundConfig;
@@ -25,12 +27,20 @@ public class EventConfiguration {
         
         if (config == null) return;
 
-        commandClassName(config.CommandClassName__c)
-            .outboundConfig( new OutboundEventConfig(config.OutboundConfig__r))
+        eventName (config.DeveloperName)
+            .commandClassName(config.CommandClassName__c)            
             .retryCount( config.Retry__c?.intValue() ?? 10 )
             .enableTraceLog(config.EnableTraceLog__c ?? true )
             .oauthEventName( config.OAuthEventName__c )
             .disabled(config.Disabled__c ?? false);
+
+        if (config.OutboundConfig__r != null) {
+            outboundConfig( new OutboundEventConfig(config.OutboundConfig__r));
+        }
+    }
+
+    public String getEventName () {
+        return this.eventName;
     }
 
     public String getCommandClassName() {
@@ -56,6 +66,11 @@ public class EventConfiguration {
     public String getOAuthEventName () {
         return this.oAuthEventName;
     }
+
+    public EventConfiguration eventName (String eventName) {
+        this.eventName = eventName;
+        return this;
+    }    
 
     public EventConfiguration commandClassName(String commandClassName) {
         this.commandClassName = commandClassName;
@@ -85,6 +100,27 @@ public class EventConfiguration {
     public EventConfiguration oauthEventName (String oauthEventName) {
         this.oAuthEventName = oauthEventName;
         return this;
-    }    
+    }
+    
+    public Boolean hasCommandHandler () {
+        return this.commandClassName != null;
+    }
+
+    public Command getCommand () {
+        return CommandFactory.newInstance(getCommandClassName());
+    }
+
+    public static List<EventConfiguration> buildConfigs (List<EventConfiguration__mdt> configs) {
+
+        List<EventConfiguration> eventConfigs = new  List<EventConfiguration>();
+
+        for (EventConfiguration__mdt config: configs) {
+
+            eventConfigs.add ( new EventConfiguration(config) );
+        }
+
+        return eventConfigs;
+
+    }
 
 }
