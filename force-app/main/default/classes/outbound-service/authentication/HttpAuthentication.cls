@@ -15,7 +15,13 @@ public virtual class HttpAuthentication {
 
 	public String token;
 
-	public HttpAuthentication() {
+	public HttpAuthentication() {        
+	}
+
+    public HttpAuthentication(String token) {
+        this();
+        this.token = token;
+        System.debug(token);
 	}
     
     virtual
@@ -33,9 +39,9 @@ public virtual class HttpAuthentication {
         
 	}
 
-    public String getToken () {
-        
-        if ( !getCache().contains('token') ) return '';
+    public String getToken () {        
+
+        if ( getCache() == null || !getCache().contains('token') ) return token;
 
         return (String) getCache().get('token');
 
@@ -43,7 +49,7 @@ public virtual class HttpAuthentication {
 
     private Cache.OrgPartition getCache() {
         
-        if ( partition == null ) {
+        if ( partition == null & !String.isEmpty(cacheName)) {
             partition = Cache.Org.getPartition(cacheName);
         }
 

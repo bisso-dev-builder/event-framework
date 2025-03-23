@@ -2,10 +2,12 @@ public abstract class AbstractEventExecutor {
     
     protected EventQueueRepository repository;
 
+    @TestVisible
     protected List<EventQueue> events;
 
     List<AbstractEventExecutor> executors;
 
+    @SupperssWarnings('PMD')
     public AbstractEventExecutor() {
     }
 
@@ -34,6 +36,7 @@ public abstract class AbstractEventExecutor {
 
     }
 
+    @SupperssWarnings('PMD')
     virtual
     public void execute (EventQueue event) {
     }

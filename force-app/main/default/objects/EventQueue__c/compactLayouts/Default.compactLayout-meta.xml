@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Default</fullName>
+    <fields>SalesforceObjectId__c</fields>
+    <fields>DocumentNumber__c</fields>
+    <fields>CorrelatedNumber__c</fields>
+    <fields>ExternalId__c</fields>
+    <fields>Status__c</fields>
+    <fields>RetryCount__c</fields>
+    <label>Default</label>
+</CompactLayout>

@@ -55,6 +55,10 @@ public virtual class HttpRequestBuilder {
         return this;
     }
     
+    public HttpRequestBuilder withAuthentication(HttpAuthentication authentication) {
+        return withHeader('Authorization', authentication.getHttpHeader());
+    }
+
     public HttpRequestBuilder withCertificate(String name) {
         if (String.isEmpty(name)) return this;
         this.request.setClientCertificateName(name);

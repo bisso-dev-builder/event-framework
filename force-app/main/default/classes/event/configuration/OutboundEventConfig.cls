@@ -19,6 +19,12 @@ public class OutboundEventConfig {
 
     Boolean useEnvironmentWithCredential;
 
+    String clientIdCredentialVariable;
+
+    String clientSecretCredentialVariable;
+
+    String externalCredentialName;
+
     @TestVisible
     OutboundEnvironmentResolver environmentResolver;
 
@@ -43,7 +49,11 @@ public class OutboundEventConfig {
             .certificateName(config.CertificateName__c)
             .httpMethod(config.HttpMethod__c)
             .httpHeaders(config.HttpHeaders__c)
-            .responseClassName(config.ResponseClassName__c);
+            .responseClassName(config.ResponseClassName__c)
+            .clientIdCredentialVariable (config.OAuthClientIdCredentialVariable__c)
+            .clientSecretCredentialVariable (config.OAuthClientSecretCredentialVariable__c)
+            .externalCredentialName (config.ExternalCredendialAPIName__c);
+
     }
 
     public OutboundEventConfig endPointUrl(String endPointUrl) {
@@ -87,6 +97,22 @@ public class OutboundEventConfig {
         return this;
     }
 
+
+    public OutboundEventConfig clientIdCredentialVariable(String clientIdCredentialVariable) {
+        this.clientIdCredentialVariable = clientIdCredentialVariable;
+        return this;
+    }
+
+    public OutboundEventConfig clientSecretCredentialVariable(String clientSecretCredentialVariable) {
+        this.clientSecretCredentialVariable = clientSecretCredentialVariable;
+        return this;
+    }
+
+    public OutboundEventConfig externalCredentialName(String externalCredentialName) {
+        this.externalCredentialName = externalCredentialName;
+        return this;
+    }
+
     public String getEndPointUrl() {    
         
         if ( String.isEmpty( buildNamedCredential () ) 
@@ -120,6 +146,27 @@ public class OutboundEventConfig {
     public String getResponseClassName() {
         return this.responseClassName;
     }
+    
+    public String getClientIdCredentialVariable() {
+
+        return applyEnvironmentInExternalCredetial(this.clientIdCredentialVariable);
+    }
+
+    public String getClientSecretCredentialVariable() {
+        return applyEnvironmentInExternalCredetial(this.clientSecretCredentialVariable);
+    }
+
+    private String applyEnvironmentInExternalCredetial (String value) {
+
+        if (String.isEmpty(externalCredentialName)) {
+            return value;
+        }
+
+        String externalCredential =  this.externalCredentialName + getOutboundEnvironment();
+    
+        return value.replace(externalCredentialName, externalCredential);
+
+    }
 
     private String buildNamedCredential () {
 
@@ -133,7 +180,6 @@ public class OutboundEventConfig {
         return 'callout:' + namedCredencial;
 
     }
-
 
     private String getOutboundEnvironment () {
 

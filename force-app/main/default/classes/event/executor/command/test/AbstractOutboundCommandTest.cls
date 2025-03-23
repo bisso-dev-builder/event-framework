@@ -87,7 +87,7 @@ public class AbstractOutboundCommandTest {
 
         GetAddressResponse expectedResponse = fromJson(payloadResponse);
 
-        AbstractOutboundCommand command = new ExecuteUpdateExceptionOutboundCommandMock( JSON.serialize(expectedRequestPayload) 
+        AbstractOutboundCommand command = new ExecuteUpdateDmlExceptionOutboundCommandMock( JSON.serialize(expectedRequestPayload) 
                                                                         , expectedResponse );                
         try {
             
@@ -187,9 +187,9 @@ public class AbstractOutboundCommandTest {
 
     }
 
-    public virtual class ExecuteUpdateExceptionOutboundCommandMock extends SuccessOutboundCommandMock {
+    public virtual class ExecuteUpdateDmlExceptionOutboundCommandMock extends SuccessOutboundCommandMock {
 
-        public ExecuteUpdateExceptionOutboundCommandMock(String transformedPayload
+        public ExecuteUpdateDmlExceptionOutboundCommandMock(String transformedPayload
                                                         , Object response) {
             super(transformedPayload, response);            
         }
@@ -197,6 +197,27 @@ public class AbstractOutboundCommandTest {
         override
         public void executeUpdate() {
             update new Contact();
+        }
+
+    }
+
+    public virtual class ExecuteUpdateOutboundCommandWithExceptionMock extends SuccessOutboundCommandMock {
+
+        Exception throwableException;
+
+        public ExecuteUpdateOutboundCommandWithExceptionMock(String transformedPayload
+                                                        , Object response
+                                                        , Exception throwableException) {
+            super(transformedPayload, response);  
+            
+            this.throwableException = throwableException;
+        }
+
+        override
+        public void executeUpdate() {
+            if (throwableException != null) {
+                throw throwableException;
+            }
         }
 
     }

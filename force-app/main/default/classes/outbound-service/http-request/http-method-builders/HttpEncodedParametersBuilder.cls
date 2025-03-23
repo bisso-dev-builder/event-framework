@@ -32,13 +32,29 @@ public virtual class HttpEncodedParametersBuilder implements HttpPayloadInjector
         
         for ( String parameter : parameters.keySet() ) {
 
-            if (parameters.get( parameter ) == null) continue;
+            String value = parameters.get( parameter );
+            if ( value == null ) {
+                continue;
+            } 
 
-            queryParameters += parameter + '=' + EncodingUtil.urlEncode( parameters.get( parameter ), 'UTF-8') + '&';
+            queryParameters += parameter + '=' + endode(value) + '&';
         }
 
         return queryParameters;
 
+    }
+
+    private String endode (String value) {
+
+        if (isBindVariable(value)) {
+            return value;
+        }
+
+        return EncodingUtil.urlEncode( value, 'UTF-8');
+    }
+
+    private Boolean isBindVariable (String value) {
+        return !String.isEmpty(value) && value.indexOf('$Credential') > 0;
     }
 
 }

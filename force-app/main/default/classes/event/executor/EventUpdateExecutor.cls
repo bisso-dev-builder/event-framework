@@ -25,6 +25,10 @@ public virtual class EventUpdateExecutor extends AbstractEventExecutor {
         } catch (IntegrationBusinessException e) {
             
             event.withError(e).disableRetry();
+
+        } catch (DmlException e) {
+            
+            event.withError(e).disableRetry();
             
         } catch (Exception e) {
 

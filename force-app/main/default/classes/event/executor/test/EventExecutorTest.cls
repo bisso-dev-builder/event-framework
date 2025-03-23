@@ -95,4 +95,16 @@ public class EventExecutorTest {
         // No exception should be thrown, and no processing should occur.
         System.assert(true, 'Execution should complete without errors.');
     }
+
+    @isTest
+    public static void shouldFindEventByListOfIds () {
+        
+        EventQueue__c event = EventQueueFixtureFactory.createEventQueue('Test');
+
+        EventExecutor executor = new EventExecutor(new List<String> {event.Id});
+
+        Assert.areEqual( 1 , executor.events.size() );
+
+    }
+
 }

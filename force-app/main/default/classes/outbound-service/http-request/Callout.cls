@@ -27,7 +27,13 @@ public virtual class Callout {
 
         requestPrepare(requestContent);
 
-        HttpResponse response = new Http().send( this.requestBuilder.build() );
+        HttpRequest request = this.requestBuilder.build();
+
+        System.debug( request.getBody() );
+
+        HttpResponse response = new Http().send( request );
+
+        System.debug( response.getBody() );
 
         return responseBuilder.buildResponse(response);
 
@@ -38,7 +44,8 @@ public virtual class Callout {
 
         if (requestContent == null) return;
 
-        this.requestBuilder.withPayload(requestContent);        
+        this.requestBuilder.withPayload(requestContent); 
+        
     }
 
     public EventQueue getEvent() {

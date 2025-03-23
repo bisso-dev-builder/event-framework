@@ -20,6 +20,12 @@
                 <default>false</default>
                 <label>UAT</label>
             </value>
+            <value>
+                <fullName>DEVELOPMENT</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
+                <label>DEVELOPMENT</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

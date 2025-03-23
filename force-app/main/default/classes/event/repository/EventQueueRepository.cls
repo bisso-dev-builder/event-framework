@@ -35,7 +35,9 @@ public inherited sharing virtual class EventQueueRepository
                     , OutboundConfig__r.NamedCredencial__c
                     , OutboundConfig__r.ResponseClassName__c
                     , OutboundConfig__r.Timeout__c
-                    , OutboundConfig__r.UseEnvironmentWithCredential__c                
+                    , OutboundConfig__r.UseEnvironmentWithCredential__c
+                    , OutboundConfig__r.OAuthClientIdCredentialVariable__c
+                    , OutboundConfig__r.OAuthClientSecretCredentialVariable__c
                 FROM EventConfiguration__mdt 
                 WHERE DeveloperName IN : names] );
 

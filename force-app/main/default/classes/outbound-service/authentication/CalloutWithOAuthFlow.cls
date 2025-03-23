@@ -19,22 +19,25 @@ public class CalloutWithOAuthFlow extends Callout {
 
     }
 
-    public CalloutWithOAuthFlow authenticate (Object oauthRequest) {
-        
-        return null;
-
-    }
-
     override
     public Object send ( Object requestContent ) {
 
-        super.send(requestContent);
+        authenticate ();
 
-        HttpResponse response = new Http().send( requestBuilder
-                                                    .withPayload(requestContent)
-                                                    .build() );
+        return super.send(requestContent);
 
-        return responseBuilder.buildReponse(response);
+    }
+
+    virtual
+    public void authenticate () {
+            
+        OAuthClientCredentialRequest request = new OutboundClientCredentialBuilder(this.oauthEvent).build();
+        
+        BaseAuthToken oauthToken = (BaseAuthToken) oauthCallout.send( request );
+
+        this.authentication = new HttpAuthentication (oauthToken.access_token);
+
+        this.requestBuilder.withAuthentication(authentication);
 
     }
 
@@ -45,8 +48,5 @@ public class CalloutWithOAuthFlow extends Callout {
         super.requestPrepare(requestContent);
         
     }
-
-
-
 
 }

@@ -21,7 +21,7 @@ public class EventQueue {
                     , EventQueueRepository repository) {                        
         this.event = event;
         this.config = config;
-        this.repository = repository;
+        setRepository(repository);
     }
     
     public EventQueue(EventQueue__c event) {
@@ -172,7 +172,6 @@ public class EventQueue {
     public void setRepository (EventQueueRepository repository) {
         this.repository = repository;
     }
-
 
     public Command getCommand () {
 
