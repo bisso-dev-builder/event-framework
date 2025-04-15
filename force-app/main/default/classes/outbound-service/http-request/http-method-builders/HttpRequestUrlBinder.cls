@@ -4,16 +4,14 @@ public class HttpRequestUrlBinder {
 
         Matcher matcher = Pattern.compile('\\{!(\\w+)\\}').matcher(url);
 
-        String bindedUrl = url;
-
         while (matcher.find()) {
             String key = matcher.group(1);
             if (requestPayload.containsKey(key)) {
-                bindedUrl = url.replace('{!' + key + '}', requestPayload.get(key));
+                url = url.replace('{!' + key + '}', requestPayload.get(key));
             }
         }
 
-        return bindedUrl;
+        return url;
 
     }
 

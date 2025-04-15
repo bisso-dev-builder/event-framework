@@ -1,5 +1,6 @@
 @isTest
 public class EventQueueTest {
+
     @isTest
     static void shouldInitializeEventQueueWithConfig() {
         // Given
@@ -27,10 +28,35 @@ public class EventQueueTest {
         Assert.isNull( eventQueue.getOutboundConfig() );
        
         Assert.isNull( eventQueue.getCommand() , 'Não há handler configurado para esse evento');
-        
+                
 
     }
 
+    @isTest
+    public static void shouldInitializeEventByNameWithEmptyConfig () {
+        
+        EventQueue event = new EventQueue('TestEvent');
+
+        Assert.isNull(event.getConfig());
+        
+    }
+
+    @isTest
+    static void shouldReturnOAuthEvent() {
+
+        EventQueue__c eventQueueRecord = EventQueueFixtureFactory.newEventQueue ('TestEvent', 'UNHANDLED');
+                
+        EventQueue eventQueue = new EventQueue(eventQueueRecord, 
+             EventConfigurationFixtureFactory.newEventConfiguration('TestEvent')
+            , new EventQueueRepositoryTest.EventQueueRepositoryConfigMock() );
+
+        EventQueue oauthEvent = eventQueue.getOAuthEvent();
+
+        Assert.isNotNull( oauthEvent , 'É esperado um evento de autenticação' );
+
+    }
+
+     
     @isTest
     static void shouldMarkEventQueueAsDelivered() {
         // Given

@@ -30,8 +30,20 @@ public class EventQueueRepositoryTest {
 
     public class EventQueueRepositoryConfigMock extends EventQueueRepository {
 
+        List<EventConfiguration> configs;
+        
+        public EventQueueRepositoryConfigMock () {
+            configs = new List<EventConfiguration> ();
+        } 
+
+        public EventQueueRepositoryConfigMock (List<EventConfiguration> configs) {
+            this.configs = configs;
+        } 
+        
         override
         public List<EventConfiguration> findConfigByNames (List<String> names) {
+
+            if (!Lists.isEmpty(configs) )  { return configs; }
 
             return EventConfigurationFixtureFactory.newEventConfigurations(names);
 

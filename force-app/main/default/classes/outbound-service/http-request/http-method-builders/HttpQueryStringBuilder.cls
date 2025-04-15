@@ -3,7 +3,6 @@
  */
 public class HttpQueryStringBuilder extends HttpEncodedParametersBuilder {
     
-    
 
     virtual
     override
