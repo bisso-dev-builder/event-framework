@@ -31,7 +31,12 @@ public class SObjectsTest {
         Assert.areEqual ('value 4', SObjects.getFieldValue( opportunityLineItems.get(3) , 'Opportunity.Account.Owner.Name') );
         
         
+        Map<String, Schema.SObjectField> fields = SObjects.getObjectFields('Account');
+          
+        Assert.isTrue( !fields.isEmpty() );
+
     }
+
 
     @isTest
     public static void shouldReturnNewObjectInstance() {
@@ -82,6 +87,7 @@ public class SObjectsTest {
         }
 
     }
+
 
 
 

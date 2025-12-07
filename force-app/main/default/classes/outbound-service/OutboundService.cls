@@ -1,17 +1,26 @@
 /**
  * @author eduardo.bisso - dev-builder
  */
-public class OutboundService {
+public virtual class OutboundService {
 
-    Callout callout;
+    protected Callout callout;
 
-    EventQueue event;
+    protected EventQueue event;
 
-    public OutboundService( EventQueue event ) {
-        this.event = event;
-        this.callout = getCallout (event);
+    public OutboundService( String eventName ) {
+        this ( new EventQueue(eventName) );
     }
 
+    public OutboundService( EventQueue event ) {
+        this (event, new Callout(event) );
+    }
+
+    public OutboundService( EventQueue event, Callout callout) {
+        this.event = event;
+        this.callout = callout;
+    }
+
+    virtual
     public Object send (Object data) {
 
         try {
@@ -28,9 +37,9 @@ public class OutboundService {
 
     }
 
-    virtual
-    public Callout getCallout (EventQueue event) {
-        return new Callout(event.getOutboundConfig());
+    
+    public Callout getCallout () {
+        return this.callout;
     }
 
     public void setCallout (Callout callout) {

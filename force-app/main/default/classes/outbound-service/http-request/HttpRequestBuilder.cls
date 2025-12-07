@@ -5,7 +5,7 @@ public virtual class HttpRequestBuilder {
     
     protected HttpRequest request;
 
-    HttpMethodBuilder httpMethodBuilder;
+    protected HttpMethodBuilder httpMethodBuilder;
 
     public HttpRequestBuilder() {
         request = new HttpRequest();
@@ -16,6 +16,10 @@ public virtual class HttpRequestBuilder {
     public HttpRequestBuilder withEndPoint(String endpoint) {
         this.request.setEndpoint(endpoint);
         return this;
+    }
+    
+    public String getEndPoint () {
+        return this.request.getEndpoint();
     }
 
     public HttpRequestBuilder withTimeout(Integer timeout) {
@@ -51,7 +55,12 @@ public virtual class HttpRequestBuilder {
         return this;
     }
     
+    public HttpRequestBuilder withAuthentication(HttpAuthentication authentication) {
+        return withHeader('Authorization', authentication.getHttpHeader());
+    }
+
     public HttpRequestBuilder withCertificate(String name) {
+        if (String.isEmpty(name)) return this;
         this.request.setClientCertificateName(name);
         return this;
     }
@@ -67,6 +76,8 @@ public virtual class HttpRequestBuilder {
     public HttpRequest build () {
         return this.request;
     }
+
+
 
 
 }

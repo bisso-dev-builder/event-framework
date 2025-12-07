@@ -5,14 +5,37 @@ public class EventQueue {
 
     EventQueue__c event;
 
-    EventConfiguration__mdt config;
+    EventConfiguration config;
 
+    EventQueueRepository repository;
+
+    Command command;
+    
     public EventQueue() {
-        event = new EventQueue__c();
+        this.event = new EventQueue__c();
+        this.repository = new EventQueueRepository();
+    }
+    
+    public EventQueue(EventQueue__c event
+                    , EventConfiguration config
+                    , EventQueueRepository repository) {                        
+        this.event = event;
+        this.config = config;
+        setRepository(repository);
+    }
+    
+    public EventQueue(EventQueue__c event) {
+        this();
+        this.event = event;
+        this.initialize(this.event.EventName__c);
     }
 
-    public EventQueue(EventQueue__c event) {
-        this.event = event;
+    public EventQueue(String eventName) {
+        this( new EventQueue__c (EventName__c = eventName) );
+    }
+
+    public void initialize(String eventName) {
+        this.config = this.repository.findConfigByName(eventName);       
     }
 
     public String getObjectId () {
@@ -31,6 +54,18 @@ public class EventQueue {
         return this.event.Id;
     }
 
+    public EventQueue__c getSObject() {
+        return this.event;
+    }
+
+    public Integer getRetryCount() {
+        return this.event.RetryCount__c?.intValue() ?? 0;
+    }
+
+    public Boolean useCustomOAuthFlow() {
+        return String.isNotEmpty( this.config?.getOAuthEventName() );
+    }
+
     public Boolean hasError () {
         return getStatus() == EventQueueStatusType.ERROR.name();
     }
@@ -43,7 +78,21 @@ public class EventQueue {
         return getStatus() == EventQueueStatusType.UNHANDLED.name();
     }
 
-    public EventQueue withConfiguration (EventConfiguration__mdt config) {
+    public EventQueue unhandled () {
+        return withStatus(EventQueueStatusType.UNHANDLED);
+    }
+
+    public EventQueue delivered () {
+        
+        if ( !isIgnored() )  {
+            withStatus( EventQueueStatusType.DELIVERED);
+        }
+
+        return clearStatusDetail();
+
+    }
+
+    public EventQueue withConfiguration (EventConfiguration config) {
         this.config = config;
         return this;
     }
@@ -63,6 +112,11 @@ public class EventQueue {
         return this;
     }
 
+    public EventQueue withCommand (Command command) {
+        this.command =  command;
+        return this;
+    }
+
     public EventQueue withError (Exception e) {
         return withError(e, e.getTypeName() + ' :  { ' +  e.getMessage() + ' }' );
     }
@@ -79,6 +133,11 @@ public class EventQueue {
 
     }
 
+    public EventQueue clearStatusDetail () {
+        return withStatusDetail('')
+            .withStackTrace('');
+    }
+
     public EventQueue disableRetry () {
         this.event.RetryCount__c = 0;
         this.event.IsRetryDisabled__c = true;
@@ -87,16 +146,52 @@ public class EventQueue {
 
     public EventQueue decreaseRetry () {
         if (this.event.RetryCount__c == 0) return this;
-        this.event.retryCount__c -=  1;
+        this.event.RetryCount__c -=  1;
         return this;        
     }
 
-    public EventConfiguration__mdt getConfig() {
+    public Boolean hasHandler () {
+        return getConfig()?.hasCommandHandler() ?? false;
+    }
+
+    public EventConfiguration getConfig() {
         return this.config;
     }
 
-    public EventOutboundConfig__mdt getOutboundConfig() {
-        return this.config.OutboundConfig__r;
+    public OutboundEventConfig getOutboundConfig() {
+        return this.config?.getOutboundConfig() ?? null;
+    }
+
+    public EventQueue getOAuthEvent() {
+
+        if (!useCustomOAuthFlow()) return null;
+
+        return new EventQueue( this.config.getOAuthEventName() );
+    }
+
+    public void setRepository (EventQueueRepository repository) {
+        this.repository = repository;
+    }
+
+    public Command getCommand () {
+
+        if (this.command == null) {
+            this.command = getConfig().getCommand();
+        }
+
+        return this.command;
+
+    }
+
+    public void log () {
+        //
+    }
+ 
+    public EventQueue save () {
+        
+        this.repository.save(this.event);      
+
+        return this;
     }
 
 }

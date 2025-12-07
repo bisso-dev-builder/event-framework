@@ -1,0 +1,192 @@
+/**
+ * @author eduardo.bisso - dev-builder
+ */
+public class OutboundEventConfig {
+
+    String endPointUrl;
+
+    Integer timeout;
+   
+    String certificateName;
+
+    String httpMethod;
+
+    String httpHeaders;
+
+    String namedCredencial;
+
+    String responseClassName;
+
+    Boolean useEnvironmentWithCredential;
+
+    String clientIdCredentialVariable;
+
+    String clientSecretCredentialVariable;
+
+    String externalCredentialName;
+
+    @TestVisible
+    OutboundEnvironmentResolver environmentResolver;
+
+    public OutboundEventConfig() {
+        this.timeout = 12000;
+        this.environmentResolver = new OutboundEnvironmentResolver();
+    }
+
+    public OutboundEventConfig(EventOutboundConfig__mdt config) {
+        this();
+        initialize(config);
+    }
+
+    private void initialize (EventOutboundConfig__mdt config) {
+        
+        if (config == null) return;
+
+        useEnvironmentWithCredential(config.UseEnvironmentWithCredential__c)
+            .namedCredencial(config.NamedCredencial__c)
+            .endPointUrl(config.EndPoint__c)
+            .timeout(config?.Timeout__c?.intValue() ?? 120000)
+            .certificateName(config.CertificateName__c)
+            .httpMethod(config.HttpMethod__c)
+            .httpHeaders(config.HttpHeaders__c)
+            .responseClassName(config.ResponseClassName__c)
+            .clientIdCredentialVariable (config.OAuthClientIdCredentialVariable__c)
+            .clientSecretCredentialVariable (config.OAuthClientSecretCredentialVariable__c)
+            .externalCredentialName (config.ExternalCredendialAPIName__c);
+
+    }
+
+    public OutboundEventConfig endPointUrl(String endPointUrl) {
+        this.endPointUrl = endPointUrl;
+        return this;
+    }
+
+    public OutboundEventConfig timeout(Integer timeout) {
+        this.timeout = timeout;
+
+        return this;
+    }
+
+    public OutboundEventConfig certificateName(String certificateName) {
+        this.certificateName = certificateName;
+        return this;
+    }
+
+    public OutboundEventConfig httpMethod(String httpMethod) {
+        this.httpMethod = httpMethod;
+        return this;
+    }
+
+    public OutboundEventConfig httpHeaders( String httpHeaders ) {
+        this.httpHeaders = httpHeaders;
+        return this;
+    }
+
+    public OutboundEventConfig namedCredencial(String namedCredencial) {
+        this.namedCredencial = namedCredencial;
+        return this;
+    }
+
+    public OutboundEventConfig responseClassName(String responseClassName) {
+        this.responseClassName = responseClassName;
+        return this;
+    }
+
+    public OutboundEventConfig useEnvironmentWithCredential(Boolean useEnvironmentWithCredential) {
+        this.useEnvironmentWithCredential = useEnvironmentWithCredential;
+        return this;
+    }
+
+
+    public OutboundEventConfig clientIdCredentialVariable(String clientIdCredentialVariable) {
+        this.clientIdCredentialVariable = clientIdCredentialVariable;
+        return this;
+    }
+
+    public OutboundEventConfig clientSecretCredentialVariable(String clientSecretCredentialVariable) {
+        this.clientSecretCredentialVariable = clientSecretCredentialVariable;
+        return this;
+    }
+
+    public OutboundEventConfig externalCredentialName(String externalCredentialName) {
+        this.externalCredentialName = externalCredentialName;
+        return this;
+    }
+
+    public String getEndPointUrl() {    
+        
+        if ( String.isEmpty( buildNamedCredential () ) 
+                && String.isEmpty( this.endPointUrl )  ) {
+            return '';
+        }
+
+        return buildNamedCredential () + '/' + this.endPointUrl;
+    }
+
+    public Integer getTimeout() {
+        return this.timeout;
+    }
+
+    public String getCertificateName() {
+        return this.certificateName;
+    }
+
+    public String getHttpMethod() {
+        return this.httpMethod;
+    }
+
+    public String getHttpHeaders() { 
+        return this.httpHeaders;
+    }
+
+    public String getNamedCredencial() {
+        return this.namedCredencial;
+    }
+
+    public String getResponseClassName() {
+        return this.responseClassName;
+    }
+    
+    public String getClientIdCredentialVariable() {
+
+        return applyEnvironmentInExternalCredetial(this.clientIdCredentialVariable);
+    }
+
+    public String getClientSecretCredentialVariable() {
+        return applyEnvironmentInExternalCredetial(this.clientSecretCredentialVariable);
+    }
+
+    private String applyEnvironmentInExternalCredetial (String value) {
+
+        if (String.isEmpty(externalCredentialName)) {
+            return value;
+        }
+
+        String externalCredential =  this.externalCredentialName + getOutboundEnvironment();
+    
+        return value.replace(externalCredentialName, externalCredential);
+
+    }
+
+    private String buildNamedCredential () {
+
+        if ( String.isEmpty(namedCredencial)) return '';
+
+        if ( useEnvironmentWithCredential ) {
+
+            return 'callout:' + namedCredencial + getOutboundEnvironment();
+        }
+
+        return 'callout:' + namedCredencial;
+
+    }
+
+    private String getOutboundEnvironment () {
+
+        String outboundEnvironment = environmentResolver.buidOutboundEnvironment();
+
+        return String.isEmpty( outboundEnvironment ) ? '' : '_' + outboundEnvironment;
+
+    }
+
+}
