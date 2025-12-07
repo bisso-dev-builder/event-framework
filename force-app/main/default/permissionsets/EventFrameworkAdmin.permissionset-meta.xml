@@ -12,6 +12,14 @@
         <enabled>true</enabled>
         <name>EventOutboundEnvironment__mdt</name>
     </customMetadataTypeAccesses>
+    <externalCredentialPrincipalAccesses>
+        <enabled>true</enabled>
+        <externalCredentialPrincipal>ViaCep-Param</externalCredentialPrincipal>
+    </externalCredentialPrincipalAccesses>
+    <externalCredentialPrincipalAccesses>
+        <enabled>true</enabled>
+        <externalCredentialPrincipal>forcecampext-clientId</externalCredentialPrincipal>
+    </externalCredentialPrincipalAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>EventQueue__c.CorrelatedNumber__c</field>
@@ -80,10 +88,6 @@
     </objectPermissions>
     <tabSettings>
         <tab>EventQueue__c</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>standard-SemanticModel</tab>
         <visibility>Visible</visibility>
     </tabSettings>
 </PermissionSet>

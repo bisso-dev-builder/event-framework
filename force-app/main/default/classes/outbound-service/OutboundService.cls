@@ -7,6 +7,10 @@ public virtual class OutboundService {
 
     protected EventQueue event;
 
+    public OutboundService( String eventName ) {
+        this ( new EventQueue(eventName) );
+    }
+
     public OutboundService( EventQueue event ) {
         this (event, new Callout(event) );
     }
