@@ -67,5 +67,9 @@ public class TriggerInterceptorConfig {
         return this;
     }
 
+    override
+    public String toString () {
+        return JSON.serialize(this);
+    }
 
 }
