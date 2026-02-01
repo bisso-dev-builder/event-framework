@@ -1,4 +1,4 @@
-@isTest
+@isTest (isParallel=true)
 public class EventConfigurationFixtureFactory {
 
     public static EventConfiguration__mdt newEventConfigurationMdt(String developerName) {

@@ -1,7 +1,7 @@
 /**
  * @author eduardo.bisso - dev-builder
  */
-@isTest
+@isTest(isParallel=true)
 public class SObjectsTest {
 
     @isTest

@@ -4,7 +4,6 @@ public class EventConfigurationFilter {
 
         Map<String, EventConfiguration> indexedConfigs = new Map<String, EventConfiguration> ();
 
-
         for (EventConfiguration config: configs) {
 
             indexedConfigs.put ( config.getEventName() , config );

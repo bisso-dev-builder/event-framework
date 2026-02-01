@@ -6,11 +6,9 @@
 @isTest
 public class IdGenerator {
 
-    private static final Integer PREFIX_LENGHT = 3;
-    private static final Integer ORG_INSTANCE_RESERVED_LENGHT = 5;
-    private static final String USER_PREFIX = UserInfo.getUserId().substring(PREFIX_LENGHT, ORG_INSTANCE_RESERVED_LENGHT);
-    
-    private static final String BASE62_ALPHABET = '0123456789abcdefghijklmnopqrstuvwqyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    private static final Integer PREFIX_LENGTH = 3;
+    private static final Integer ORG_INSTANCE_RESERVED_LENGTH = 5;
+    private static final String USER_PREFIX = UserInfo.getUserId().substring(PREFIX_LENGTH, ORG_INSTANCE_RESERVED_LENGTH);
     
     private static Integer sequence = 0; 
 
@@ -47,11 +45,11 @@ public class IdGenerator {
 
         String id = prefix + StringGenerator.textWithNumbers(length) + (sequence);
 
-		return appendSufix(id);
+		return appendSuffix(id);
 
     }
 
-    private static String appendSufix (String id) {
+    private static String appendSuffix (String id) {
 
         String suffix = '';
         String baseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ012345';

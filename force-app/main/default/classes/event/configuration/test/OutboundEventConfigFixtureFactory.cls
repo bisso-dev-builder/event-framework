@@ -1,4 +1,4 @@
-@isTest
+@isTest (isParallel=true)
 public class OutboundEventConfigFixtureFactory {
 
     public static EventOutboundConfig__mdt newEventOutboundConfig( String responseClassName ) {

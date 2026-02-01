@@ -2,7 +2,7 @@
  * https://github.com/kevinohara80/sfdc-trigger-framework
  * @author kevinohara80
  */
-@isTest
+@isTest (isParallel=true)
 public class TriggerHandlerTest {
 
     private static final String TRIGGER_CONTEXT_ERROR = 'Trigger handler called outside of Trigger execution';
@@ -87,6 +87,12 @@ public class TriggerHandlerTest {
     @isTest
     static void testBypassAPI() {
         afterUpdateMode();
+
+        TriggerHandler.bypass( new List<String> {'TestHandler'});
+        handler.run();
+        System.assertEquals(null, lastMethodCalled, 'last method should be null when bypassed');
+        System.assertEquals(true, TriggerHandler.isBypassed('TestHandler'), 'test handler should be bypassed');
+        resetTest();
 
         // test a bypass and run handler
         TriggerHandler.bypass('TestHandler');

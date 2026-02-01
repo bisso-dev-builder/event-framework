@@ -29,11 +29,7 @@ public virtual class Callout {
 
         HttpRequest request = this.requestBuilder.build();
 
-        System.debug( request.getBody() );
-
         HttpResponse response = new Http().send( request );
-
-        System.debug( response.getBody() );
 
         return responseBuilder.buildResponse(response);
 

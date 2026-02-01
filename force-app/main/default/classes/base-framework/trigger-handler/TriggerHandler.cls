@@ -61,39 +61,38 @@ public virtual class TriggerHandler {
 
         addToLoopCount();
 
+        dispatchToHandler();
+
+    }
+
+    private void dispatchToHandler() {
+
         // dispatch to the correct handler method
-        if (this.context == TriggerContext.BEFORE_INSERT) {
-
-            this.validateBeforeInsert();
-            this.beforeInsert();
-
-        }   else if (this.context == TriggerContext.BEFORE_UPDATE) {
-
-            this.validateBeforeUpdate();
-            this.beforeUpdate();
-
-        } else if (this.context == TriggerContext.BEFORE_DELETE) {
-
-            this.beforeDelete();
-
-        } else if (this.context == TriggerContext.AFTER_INSERT) {
-
-            this.afterInsert();
-
-        } else if (this.context == TriggerContext.AFTER_UPDATE) {
-
-            this.afterUpdate();
-
-        } else if (this.context == TriggerContext.AFTER_DELETE) {
-
-            this.afterDelete();
-
-        }   else if (this.context == TriggerContext.AFTER_UNDELETE) {
-
-            this.afterUndelete();
-
+        switch on this.context {
+            when BEFORE_INSERT {                
+                this.validateBeforeInsert();
+                this.beforeInsert();
+            }
+            when BEFORE_UPDATE {
+                this.validateBeforeUpdate();
+                this.beforeUpdate();
+            }
+            when BEFORE_DELETE {
+                this.beforeDelete();
+            }
+            when AFTER_INSERT {
+                this.afterInsert();
+            }
+            when AFTER_UPDATE {
+                this.afterUpdate();
+            }
+            when AFTER_DELETE {
+                this.afterDelete();
+            }
+            when AFTER_UNDELETE {
+                this.afterUndelete();
+            }
         }
-
     }
 
     public Integer getLoopCount() {
@@ -124,6 +123,10 @@ public virtual class TriggerHandler {
     //***************************************
     //* public static methods
     //***************************************/
+    public static void bypass(List<String> handlerNames) {        
+        TriggerHandler.bypassedHandlers.addAll(handlerNames);
+    }
+
     public static void bypass(String handlerName) {
         TriggerHandler.bypassedHandlers.add(handlerName);
     }

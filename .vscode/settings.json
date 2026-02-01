@@ -6,5 +6,12 @@
   },
   "salesforcedx-vscode-core.show-cli-success-msg": false,
   "salesforce.einsteinForDevelopers.enable": false,
-  "xml.preferences.showSchemaDocumentationType": "none"
+  "xml.preferences.showSchemaDocumentationType": "none",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": true
+  },
+  "editor.suggestOnTriggerCharacters": true,
+  "salesforce.einsteinForDevelopers.advanced": {}
 }

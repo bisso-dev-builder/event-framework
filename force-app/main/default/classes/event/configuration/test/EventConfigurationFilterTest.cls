@@ -1,4 +1,4 @@
-@isTest
+@isTest(isParallel=true)
 public class EventConfigurationFilterTest {
 
     @isTest

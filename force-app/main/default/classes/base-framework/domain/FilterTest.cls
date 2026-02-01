@@ -1,7 +1,7 @@
 /**
  * @author eduardo.bisso - dev-builder
  */
-@isTest
+@isTest(isParallel=true)
 public class FilterTest {
 
 
@@ -23,6 +23,45 @@ public class FilterTest {
         return accounts;
         
     }
+
+    @isTest
+    public static void shouldFilterChangedRecordsByRelevantFields () {
+                        
+        Filter filter = new Filter();
+
+        List<Account> newAccounts = setupAccounts();
+
+        Map<Id, Account> oldAccounts = new Map<Id, Account> ( newAccounts.deepClone(true, true, true)) ;
+        
+        oldAccounts.get( newAccounts.get(1).Id ).BillingStreet = 'BillingStreet0'; 
+
+        List<Account> accounts = filter.byChangedFields(newAccounts, oldAccounts, new String[] { 'BillingStreet'});
+
+        Assert.areEqual(1, accounts.size());
+        Assert.areEqual( accounts.get(0).Id , newAccounts.get(1).Id);
+
+    }
+
+    @isTest
+    public static void shouldFilterByChangedValue () {
+
+        Filter filter = new Filter();
+
+        List<Account> newAccounts = setupAccounts();
+        
+        Map<Id, Account> oldAccounts = new Map<Id, Account> ( newAccounts.deepClone(true, true, true)) ;
+
+        oldAccounts.get( newAccounts.get(1).Id ).BillingStreet = 'BillingStreet0'; 
+
+        List<Account> accounts = filter.byChangedValue(newAccounts
+                    , oldAccounts
+                    , 'BillingStreet'
+                    , 'BillingStreet');     
+
+        Assert.areEqual(1, accounts.size());
+
+    }
+
 
     @isTest
     public static void givenRecordsWhenFilterByNotNullThenReturnRecords () {
@@ -105,6 +144,33 @@ public class FilterTest {
 
         System.assertEquals( newAccounts.get(0).Name , notEmptyType.get(0).Name);
 
+    }
+
+    @isTest
+    public static void shouldFilterRecordsWithError () {
+
+        Filter filter = new Filter();
+
+        List<Account> newAccounts = setupAccounts();
+        newAccounts.get(1).addError('Record With Error');
+
+        List<Account> recordsWithError = filter.withError(newAccounts);
+       
+        Assert.areEqual(1, recordsWithError.size());
+
+        Assert.isTrue( filter.hasError(recordsWithError) );
+        
+    }
+
+    @isTest
+    public static void shouldIndicateThatRecordsNotHaveErrors () {
+
+        Filter filter = new Filter();
+
+        List<Account> newAccounts = setupAccounts();
+
+        Assert.isFalse( filter.hasError(newAccounts) );
+        
     }    
 
 }

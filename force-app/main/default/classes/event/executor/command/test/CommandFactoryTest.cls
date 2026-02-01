@@ -1,4 +1,4 @@
-@isTest
+@isTest (isParallel=true)
 public class CommandFactoryTest {
 
     @isTest
@@ -47,7 +47,7 @@ public class CommandFactoryTest {
 
         Command command = CommandFactory.newInstance(invalidClassName);
 
-        Assert.isNull( command , 'Deveria retornar null para uma tipo inválido' );
+        Assert.isTrue( command == null , 'Deveria retornar null para uma tipo inválido' );
 
     }
 
