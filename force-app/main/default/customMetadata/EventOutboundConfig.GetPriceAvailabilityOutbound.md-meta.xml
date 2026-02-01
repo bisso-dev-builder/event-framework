@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>GetPriceAvailabilityOutbound</label>
+    <protected>false</protected>
+    <values>
+        <field>CachePartitionName__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>CertificateName__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>EndPoint__c</field>
+        <value xsi:type="xsd:string">/services/apexrest/api/priceAvailability</value>
+    </values>
+    <values>
+        <field>ExternalCredendialAPIName__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>HttpHeaders__c</field>
+        <value xsi:type="xsd:string">{&quot;Content-Type&quot; : &quot;application/json&quot;}</value>
+    </values>
+    <values>
+        <field>HttpMethod__c</field>
+        <value xsi:type="xsd:string">GET</value>
+    </values>
+    <values>
+        <field>NamedCredencial__c</field>
+        <value xsi:type="xsd:string">forcecamp</value>
+    </values>
+    <values>
+        <field>OAuthClientIdCredentialVariable__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>OAuthClientSecretCredentialVariable__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ResponseClassName__c</field>
+        <value xsi:type="xsd:string">Map&lt;String,Object&gt;</value>
+    </values>
+    <values>
+        <field>Timeout__c</field>
+        <value xsi:type="xsd:double">120000.0</value>
+    </values>
+    <values>
+        <field>UseEnvironmentWithCredential__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+</CustomMetadata>
