@@ -46,4 +46,10 @@ public class Maps {
         
         return groupedRecords;
     }
+
+    public static Boolean isEmpty ( Map<String, Object> content ) {
+
+        return content == null ? true : content.isEmpty();
+
+    }
 }

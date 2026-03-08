@@ -6,9 +6,9 @@ public class ListsTest {
 
     public static List<Account> setup () {
         return new List<Account> {
-                AccountFixtureFactory.newWithFakeId('One')
-            , AccountFixtureFactory.newWithFakeId('Two')
-            , AccountFixtureFactory.newWithFakeId('Three')
+                CommonsFixtureFactory.newAccountWithFakeId('One')
+            , CommonsFixtureFactory.newAccountWithFakeId('Two')
+            , CommonsFixtureFactory.newAccountWithFakeId('Three')
         };
     }
 
@@ -60,7 +60,7 @@ public class ListsTest {
 
         String payload = '[{"Id":"0011U00000DpSUUQA3","Name":"GenePoint","Contacts":{"totalSize":1,"done":true,"records":[{"AccountId":"0011U00000DpSUUQA3","Id":"0031U00000B22q0QAB","Email":"efrank@genepoint.com"}]}},{"Id":"0011U00000DpSUSQA3","Name":"United Oil & Gas, UK","Contacts":{"totalSize":1,"done":true,"records":[{"AccountId":"0011U00000DpSUSQA3","Id":"0031U00000B22pxQAB","Email":"ajames@uog.com"}]}},{"Id":"0011U00000DpSUTQA3","Name":"United Oil & Gas, Singapore","Contacts":{"totalSize":2,"done":true,"records":[{"AccountId":"0011U00000DpSUTQA3","Id":"0031U00000B22pyQAB","Email":"tripley@uog.com"},{"AccountId":"0011U00000DpSUTQA3","Id":"0031U00000B22pzQAB","Email":"ldcruz@uog.com"}]}}]';
 
-        List<Account> accounts = AccountFixtureFactory.fromJsonArray(payload);
+        List<Account> accounts = CommonsFixtureFactory.fromJsonArray(payload);
 
         List<Contact> contacts = (List<Contact> ) Lists.pullAllSubQueryRecords(accounts, 'Contacts');
 

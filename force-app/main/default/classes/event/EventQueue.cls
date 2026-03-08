@@ -7,23 +7,36 @@ public class EventQueue {
 
     EventConfiguration config;
 
-    EventQueueRepository repository;
+    EventQueueRepository repository;    
 
     Command command;
     
+    EventQueueContentVersionAdapter logAdapter;
+
+    List<String> logs;
+    
     public EventQueue() {
-        this.event = new EventQueue__c();
-        this.repository = new EventQueueRepository();
+        this (new EventQueue__c(), new EventQueueRepository());                
+    }
+       
+    public EventQueue(EventQueue__c event
+                    , EventConfiguration config
+                    , EventQueueRepository repository) {             
+        this (event, repository);  
+        this.config = config;
     }
     
     public EventQueue(EventQueue__c event
-                    , EventConfiguration config
-                    , EventQueueRepository repository) {                        
-        this.event = event;
-        this.config = config;
+                    , EventQueueRepository repository) {
+        this.event = event;        
+        
+        this.logs = new List<String> ();
+        
+        this.logAdapter = new EventQueueContentVersionAdapter();
+
         setRepository(repository);
     }
-    
+
     public EventQueue(EventQueue__c event) {
         this();
         this.event = event;
@@ -56,6 +69,10 @@ public class EventQueue {
 
     public EventQueue__c getSObject() {
         return this.event;
+    }
+
+    public String getName() {
+        return this.event.EventName__c;
     }
 
     public Integer getRetryCount() {
@@ -183,15 +200,50 @@ public class EventQueue {
 
     }
 
-    public void log () {
-        //
+    public void log (String message) {
+        this.logs.add( message );
     }
- 
+    
+    public void logRequest (String message) {
+        logPayload('REQUEST', message);
+    }
+    
+	public void logResponse (String message) {
+        logPayload('RESPONSE', message);
+    }
+    
+    private void logPayload (String type, String message) {
+        logAdapter.log (  new Log().tag( type + '_' + getName()).message(message) );        
+    }
+
     public EventQueue save () {
         
         this.repository.save(this.event);      
 
+        storeLogs ();
+
         return this;
+    }
+
+    private void storeLogs () {
+
+        flushLogs ();
+
+        List<ContentVersion> contentVersions = logAdapter.getContentVersions();
+        
+        if (Lists.isEmpty(contentVersions)) return;
+
+        this.repository.saveRelated(this.event
+                                , 'FirstPublishLocationId'
+                                , contentVersions); 
+
+    }
+
+    private void flushLogs () { 
+
+        if (Lists.isEmpty(logs)) return;
+        
+        logAdapter.log ( new Log().tag('EXECUTION_LOG').log(logs) );
     }
 
 }

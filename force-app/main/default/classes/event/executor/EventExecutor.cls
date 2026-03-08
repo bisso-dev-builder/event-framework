@@ -10,7 +10,8 @@ public virtual class EventExecutor extends AbstractEventExecutor {
 
     @future(callout=true)
     public static void execute (List<String> eventIds) {
-        executor.initializeEvents(eventIds).execute();
+        executor.initializeEvents(eventIds)
+                .execute();
     }
 
     EventConfigurationFilter configFilter;

@@ -1,6 +1,6 @@
 @isTest
 public class HttpMock implements HttpCalloutMock {
-
+ 
     HttpResponse response;
 
     public HttpMock() {
@@ -22,5 +22,7 @@ public class HttpMock implements HttpCalloutMock {
     public HttpResponse respond(HttpRequest request) {
         return response;
     }
+
+    
 
 }

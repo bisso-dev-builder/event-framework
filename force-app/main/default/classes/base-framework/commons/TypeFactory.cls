@@ -6,7 +6,7 @@ public class TypeFactory {
 
         Type newType = Type.forName (className);
 
-        if (newType == null || !newType.isAssignableFrom(expectedType)) return null;
+        if (newType == null || !expectedType.isAssignableFrom(newType)) return null;
 
 		return newType.newInstance();
 

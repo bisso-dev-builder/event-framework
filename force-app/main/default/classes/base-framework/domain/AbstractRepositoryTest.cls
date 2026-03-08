@@ -7,7 +7,7 @@ public class AbstractRepositoryTest {
     @isTest
     public static void givenValidAccountWhenSaveThenCreateRecordId () {
 
-        Account account = AccountFixtureFactory.newAccount ('One');
+        Account account = CommonsFixtureFactory.newAccount ('One');
 
         AccountRepository repository = new AccountRepository();
 
@@ -26,7 +26,7 @@ public class AbstractRepositoryTest {
     @isTest
     public static void givenValidAccountWhenSaveAllThenAllCreateRecordId () {
 
-        Account account = AccountFixtureFactory.newAccount ('One');
+        Account account = CommonsFixtureFactory.newAccount ('One');
 
         AccountRepository repository = new AccountRepository();
 
@@ -47,7 +47,7 @@ public class AbstractRepositoryTest {
     @isTest
     public static void givenStoredAccountWhenRemoveThenNoMoreAccounts () {
 
-        Account account = AccountFixtureFactory.save('One');
+        Account account = CommonsFixtureFactory.save('One');
 
         AccountRepository repository = new AccountRepository();
 
@@ -64,7 +64,7 @@ public class AbstractRepositoryTest {
     @isTest
     public static void givenAccountAndContactWhenSaveThenAccountsAndContactsWithAccounts () {
 
-        Account account = AccountFixtureFactory.newAccount('One');
+        Account account = CommonsFixtureFactory.newAccount('One');
 
         List<Contact> contacts = new List<Contact> { new Contact (LastName = 'One', Email ='one@mail.com') };
         
@@ -85,7 +85,7 @@ public class AbstractRepositoryTest {
     @isTest
     public static void givenAccountAndContactWhenSaveRelatedWithExternalIdThenReturnContactsWithAccounts () {
 
-        Account account = AccountFixtureFactory.newWithFakeId('One');
+        Account account = CommonsFixtureFactory.newAccountWithFakeId('One');
 
         List<Contact> contacts = new List<Contact> { new Contact (LastName = 'One', Email ='one@mail.com') };
         
@@ -108,7 +108,7 @@ public class AbstractRepositoryTest {
 
         AbstractRepository repository = new AbstractRepositoryMock ();
 
-        Account newAccount = AccountFixtureFactory.newAccount('One');
+        Account newAccount = CommonsFixtureFactory.newAccount('One');
         
         Schema.SObjectField EXTERNAL_ID = Account.NaicsCode.getDescribe().getSObjectField();
 
@@ -116,7 +116,7 @@ public class AbstractRepositoryTest {
 
         Assert.isNotNull(stored.Id);
         
-        List<Account> otherAccounts = new List<Account> { AccountFixtureFactory.newAccount('Other') };
+        List<Account> otherAccounts = new List<Account> { CommonsFixtureFactory.newAccount('Other') };
         
         List<Account> otherStoredAccounts = (List<Account>) repository.save ( otherAccounts , EXTERNAL_ID);
         
@@ -127,7 +127,7 @@ public class AbstractRepositoryTest {
     @isTest
     public static void sholdReturnErrors () {
 
-        Account account = AccountFixtureFactory.newAccount( StringGenerator.text(1000) );
+        Account account = CommonsFixtureFactory.newAccount( StringGenerator.text(1000) );
 
         new AccountRepository().save (account);
 
@@ -138,7 +138,7 @@ public class AbstractRepositoryTest {
     @isTest
     public static void sholdReturnErrorsOnRelated () {
 
-        Account account = AccountFixtureFactory.save('One');
+        Account account = CommonsFixtureFactory.save('One');
 
         List<Contact> contacts = new List<Contact> { new Contact (LastName = StringGenerator.text(260)
                                                     , Email ='one@mail.com') };

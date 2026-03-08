@@ -43,4 +43,9 @@ public virtual class HttpResponseBuilder {
         return this.response.getStatusCode() >= 400;
     }
 
+    override
+    public String toString() {
+        return response.getBody();
+    }
+
 }

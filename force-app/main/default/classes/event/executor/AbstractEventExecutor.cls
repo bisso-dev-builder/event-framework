@@ -9,11 +9,11 @@ public abstract class AbstractEventExecutor {
 
     @SupperssWarnings('PMD')
     public AbstractEventExecutor() {
+        this.repository = new EventQueueRepository();
     }
 
     public AbstractEventExecutor (List<AbstractEventExecutor> executors) {
-        this.repository = new EventQueueRepository();
-
+        this();        
         this.executors = executors;
     }
 
@@ -41,6 +41,7 @@ public abstract class AbstractEventExecutor {
     public void execute (EventQueue event) {
     }
 
+    @SupperssWarnings('PMD')
     virtual
     public void execute (Command command, EventQueue event) {
     }

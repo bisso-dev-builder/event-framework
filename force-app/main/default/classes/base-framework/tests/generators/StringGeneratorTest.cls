@@ -31,9 +31,6 @@ public class StringGeneratorTest {
 
         String otherValue = StringGenerator.textWithNumbers(20);
 
-        System.debug( 'value = ' + value );
-        System.debug( 'otherValue = ' + otherValue );
-        
         Assert.areEqual( 20 , value.length());
 
         Assert.areNotEqual( value , otherValue);

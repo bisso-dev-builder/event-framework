@@ -2,13 +2,8 @@ public class CommandFactory {
     
     public static Command newInstance(String className) {
 
-        if (String.isEmpty(className)) { return null; }
+		return (Command) TypeFactory.newInstance(className, Command.class);
 
-		Type commandType = Type.forName (className);
-
-		if (commandType == null) return null;
-
-		return  (Command) commandType.newInstance();
 	}
 
 }

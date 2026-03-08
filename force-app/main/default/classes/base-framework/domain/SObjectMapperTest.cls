@@ -7,7 +7,7 @@ public class SObjectMapperTest {
     @isTest
     public static void shouldApplyMasterRecordId() {
 
-        Account account = AccountFixtureFactory.newWithFakeId('One');
+        Account account = CommonsFixtureFactory.newAccountWithFakeId('One');
 
         List<Contact> contacts = new List<Contact> { new Contact (LastName = 'One', Email ='one@mail.com')
                                             , new Contact ( LastName = 'Other', Email = 'other@emai.com' ) };
@@ -27,9 +27,9 @@ public class SObjectMapperTest {
     @isTest
     public static void givenSavedContactWithAccountWhenMapThenOlySetAccountIdForNotSavedItems () {
 
-        Account otherAccount = AccountFixtureFactory.newWithFakeId('Other');
+        Account otherAccount = CommonsFixtureFactory.newAccountWithFakeId('Other');
 
-        Account account = AccountFixtureFactory.newWithFakeId('One');
+        Account account = CommonsFixtureFactory.newAccountWithFakeId('One');
 
         List<Contact> contacts = new List<Contact> { new Contact (LastName = 'One', Email ='one@mail.com', AccountId = otherAccount.Id )
                                             , new Contact ( LastName = 'Other', Email = 'other@emai.com' )

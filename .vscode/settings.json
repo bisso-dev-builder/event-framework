@@ -8,10 +8,10 @@
   "salesforce.einsteinForDevelopers.enable": false,
   "xml.preferences.showSchemaDocumentationType": "none",
   "editor.quickSuggestions": {
-    "other": true,
-    "comments": true,
-    "strings": true
+    "other": false,
+    "comments": false,
+    "strings": false
   },
-  "editor.suggestOnTriggerCharacters": true,
+  "editor.suggestOnTriggerCharacters": false,
   "salesforce.einsteinForDevelopers.advanced": {}
 }

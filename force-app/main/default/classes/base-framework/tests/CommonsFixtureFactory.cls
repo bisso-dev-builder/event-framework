@@ -1,10 +1,7 @@
-/**
- * @author eduardo.bisso - dev-builder
- */
 @isTest
-public class AccountFixtureFactory {
+public class CommonsFixtureFactory {
 
-    public static Account newWithFakeId (String name) {
+    public static Account newAccountWithFakeId (String name) {
 
         Account account = newAccount (name);
         IdGenerator.generate(account);
@@ -17,7 +14,7 @@ public class AccountFixtureFactory {
         return new Account(
                    Name = name
                    , BillingCountry = 'Brazil'
-                   , BillingState = 'São Paulo');
+                   , BillingPostalCode = StringGenerator.numeric(8).toString());
     }
 
     public static Account save(String name) {

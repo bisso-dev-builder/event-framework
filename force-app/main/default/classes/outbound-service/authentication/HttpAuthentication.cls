@@ -21,7 +21,6 @@ public virtual class HttpAuthentication {
     public HttpAuthentication(String token) {
         this();
         this.token = token;
-        System.debug(token);
 	}
     
     virtual

@@ -4,7 +4,7 @@ public class OutboundEventConfigFixtureFactory {
     public static EventOutboundConfig__mdt newEventOutboundConfig( String responseClassName ) {
         return new EventOutboundConfig__mdt(
             UseEnvironmentWithCredential__c = true,
-            NamedCredencial__c = 'TestNamedCredential',
+            NamedCredencial__c = responseClassName,
             EndPoint__c = 'test/endpoint',
             Timeout__c = 15000,
             HttpMethod__c = 'POST',

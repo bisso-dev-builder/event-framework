@@ -25,7 +25,7 @@ public virtual class OutboundService {
 
         try {
 
-            return this.callout.send(data);
+            return getCallout().send(data);
 
         } catch (Exception e) {
 
@@ -37,7 +37,6 @@ public virtual class OutboundService {
 
     }
 
-    
     public Callout getCallout () {
         return this.callout;
     }

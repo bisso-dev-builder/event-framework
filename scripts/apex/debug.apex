@@ -15,10 +15,6 @@ request.setMethod ('GET');
 
 HttpResponse response = new Http().send ( request );
 
-System.debug(response.getStatusCode());
-    
-System.debug(JSON.serialize( response.getBody() ));
-
 AbstractEventPublisher publisher = new AbstractEventPublisher();
 
 publisher.publish( 'GetAddressOutbound' , new List<Lead> { new Lead (Id = '00QgK0000004oD4UAI') });
@@ -111,3 +107,20 @@ while (matcher.find()) {
 System.debug(template);
 
 
+
+
+HttpRequest request = new HttpRequest();
+
+request.setEndPoint ('callout:IntegrationClient/services/data/v62.0/query/?q=SELECT+Name+From+Account+WHERE+AccountNumber%3D+%27CD451796%27&');
+request.setMethod ('GET');
+request.setHeader('Content-Type', 'application/json');
+
+HttpResponse response = new Http().send ( request );
+
+System.debug(response.getStatusCode());
+System.debug(response.getBody());
+
+
+GetAccountOutboundService service = new GetAccountOutboundService ();
+
+System.debug( service.findAccountByDocument ('CD451796') );

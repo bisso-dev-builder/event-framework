@@ -9,7 +9,7 @@ public class MapsTest {
         
         List<Account> accounts = ListsTest.setup();
 
-        Map<String,Account>  accountsByBillingState = (Map<String,Account>) Maps.indexBy('BillingState', accounts);
+        Map<String,Account>  accountsByBillingState = (Map<String,Account>) Maps.indexBy('BillingPostalCode', accounts);
 
         System.assert(!accountsByBillingState.isEmpty());
 
@@ -35,6 +35,7 @@ public class MapsTest {
         List<Account> accounts = ListsTest.setup();
         accounts.get(0).BillingState = 'SP';
         accounts.get(1).BillingState = 'SP';
+        accounts.get(2).BillingState = 'RJ';
 
         Map<String, List<Account>> accountsGroupedByBillingState = (Map<String, List<Account>>
                                                                     ) Maps.grouppBy('BillingState', accounts);

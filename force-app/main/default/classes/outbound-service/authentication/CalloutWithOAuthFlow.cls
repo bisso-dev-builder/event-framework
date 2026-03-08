@@ -49,4 +49,12 @@ public class CalloutWithOAuthFlow extends Callout {
         
     }
 
+    public void setOAuthEvent (EventQueue oauthEvent) {
+        this.oauthEvent = oauthEvent;
+    }
+
+    public void setOAuthCallout (Callout oauthCallout) {
+        this.oauthCallout = oauthCallout;
+    }
+
 }

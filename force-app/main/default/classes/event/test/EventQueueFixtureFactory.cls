@@ -79,11 +79,17 @@ public class EventQueueFixtureFactory {
     }
 
     public static EventQueue newEventWithOutboundConfig (String name, String responseClasseName) {   
-                return new EventQueue( newEventQueue(name) )
+        return new EventQueue( newEventQueue(name) )
                     .withConfiguration( 
-                        EventConfigurationFixtureFactory.newEventConfigurationForOutbound(name, responseClasseName)
-                    );
-    }    
+                        EventConfigurationFixtureFactory.newEventConfigurationForOutbound(name, responseClasseName));
+    }
+
+    public static EventQueue newOAuthEventWithOutboundConfig (String name, String responseClasseName) {   
+        return new EventQueue( newEventQueue(name) )
+                    .withConfiguration( 
+                        EventConfigurationFixtureFactory.newOAuthEventConfigurationForOutbound(name, responseClasseName));
+    }
+    
 
     public static List<EventQueue> newEvents(Integer size) {
         
@@ -104,6 +110,17 @@ public class EventQueueFixtureFactory {
     public static EventQueue__c save (EventQueue__c event) {
         save(new List<EventQueue__c> {event});
         return event;
+    }
+
+    public static EventQueue__c findByEventName (String eventName) {
+
+        return [SELECT Id, EventName__c, ExternalId__c
+                    , DocumentNumber__c, CorrelatedNumber__c, SalesforceObjectId__c
+                    , RetryCount__c , IsRetryDisabled__c
+                    , Status__c , DetailedStatus__c        
+                FROM EventQueue__c
+                WHERE EventName__c = :eventName];
+
     }
 
 }

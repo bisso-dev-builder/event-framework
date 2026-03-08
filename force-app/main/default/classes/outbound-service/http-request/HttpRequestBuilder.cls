@@ -77,7 +77,12 @@ public virtual class HttpRequestBuilder {
         return this.request;
     }
 
-
+    override
+    public String toString() {
+        return 'Url : ' + request.getEndpoint() 
+             + '\nMethod ' + request.getMethod()
+             + '\nPayload:\n' + request.getBody();
+    }
 
 
 }

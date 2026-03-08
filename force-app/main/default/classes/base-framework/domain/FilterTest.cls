@@ -9,11 +9,11 @@ public class FilterTest {
 
         List<Account> accounts = new List<Account> ();
         
-        Account accountOne = AccountFixtureFactory.newWithFakeId('One Account');
+        Account accountOne = CommonsFixtureFactory.newAccountWithFakeId('One Account');
         accountOne.Type = 'Consulting';
         accountOne.BillingStreet = 'BillingStreet';
         
-        Account accountTwo = AccountFixtureFactory.newWithFakeId('Two Account');
+        Account accountTwo = CommonsFixtureFactory.newAccountWithFakeId('Two Account');
         accountTwo.Type = 'Health Care';
         accountTwo.BillingStreet = 'BillingStreet';
 
@@ -70,7 +70,7 @@ public class FilterTest {
 
         List<Account> newAccounts = setupAccounts();
 
-        Account otherAccount = AccountFixtureFactory.newWithFakeId('Other Account');
+        Account otherAccount = CommonsFixtureFactory.newAccountWithFakeId('Other Account');
         otherAccount.Type = null;
         
         newAccounts.add(otherAccount);
@@ -89,7 +89,7 @@ public class FilterTest {
 
         List<Account> newAccounts = setupAccounts();
 
-        Account otherAccount = AccountFixtureFactory.newWithFakeId('Other Account');
+        Account otherAccount = CommonsFixtureFactory.newAccountWithFakeId('Other Account');
         otherAccount.Type = null;
         
         newAccounts.add(otherAccount);
@@ -111,7 +111,7 @@ public class FilterTest {
 
         List<Account> newAccounts = setupAccounts();
 
-        Account otherAccount = AccountFixtureFactory.newWithFakeId('Other Account');
+        Account otherAccount = CommonsFixtureFactory.newAccountWithFakeId('Other Account');
         otherAccount.Type = null;
         
         newAccounts.add(otherAccount);
@@ -132,7 +132,7 @@ public class FilterTest {
 
         List<Account> newAccounts = setupAccounts();
 
-        Account otherAccount = AccountFixtureFactory.newWithFakeId('Other Account');
+        Account otherAccount = CommonsFixtureFactory.newAccountWithFakeId('Other Account');
         otherAccount.Type = null;
         
         newAccounts.add(otherAccount);

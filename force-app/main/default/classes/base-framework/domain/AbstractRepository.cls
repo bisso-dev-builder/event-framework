@@ -87,7 +87,6 @@ public inherited sharing abstract class AbstractRepository {
                                                 , Schema.SObjectField field ) {
 
         List<Database.UpsertResult> results = Database.upsert(aggregates, field, allOrNone);
-        System.debug(JSON.serialize(results));
         return results;
 
     }
@@ -96,9 +95,6 @@ public inherited sharing abstract class AbstractRepository {
     protected List<Database.UpsertResult> uppsert ( List<SObject> aggregates ) {
 
         List<Database.UpsertResult> results = Database.upsert(aggregates, allOrNone);
-
-        System.debug(JSON.serialize(results));
-
         return results;
 
     }    

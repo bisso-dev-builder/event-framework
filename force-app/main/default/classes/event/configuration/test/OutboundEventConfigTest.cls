@@ -21,7 +21,7 @@ public class OutboundEventConfigTest {
         OutboundEventConfig config = new OutboundEventConfig(metadata);
 
         // Então (Then)
-        System.assertEquals('callout:TestNamedCredential/test/endpoint', config.getEndPointUrl(), 'EndPoint deve ser construído corretamente');
+        System.assertEquals('callout:TestResponseClass/test/endpoint', config.getEndPointUrl(), 'EndPoint deve ser construído corretamente');
         System.assertEquals(15000, config.getTimeout(), 'Timeout deve ser inicializado corretamente');
         System.assertEquals(null, config.getCertificateName(), 'CertificateName deve ser inicializado corretamente');
         System.assertEquals('POST', config.getHttpMethod(), 'HttpMethod deve ser inicializado corretamente');
@@ -39,7 +39,7 @@ public class OutboundEventConfigTest {
         OutboundEventConfig config = new OutboundEventConfig(metadata);
         config.environmentResolver = OutboundEnvironmentResolverTest.newOutboundEnvironmentResolver();
 
-        System.assertEquals('callout:TestNamedCredential_DEV/test/endpoint', config.getEndPointUrl(), 'EndPoint deve ser construído corretamente');
+        System.assertEquals('callout:TestResponseClass_DEV/test/endpoint', config.getEndPointUrl(), 'EndPoint deve ser construído corretamente');
 
     }
 

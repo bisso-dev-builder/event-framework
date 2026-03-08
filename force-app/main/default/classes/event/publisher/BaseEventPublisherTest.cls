@@ -5,7 +5,7 @@ public class BaseEventPublisherTest {
     static void shouldMockPublishEventsSuccessfully() {
         
         List<Account> accounts = new List<Account> {
-            AccountFixtureFactory.newWithFakeId(StringGenerator.text(10))
+            CommonsFixtureFactory.newAccountWithFakeId(StringGenerator.text(10))
         };
 
         String eventName = 'SyncAccountOutbound';
@@ -26,7 +26,7 @@ public class BaseEventPublisherTest {
     static void shouldPublishEventsSuccessfully() {
         
         List<Account> accounts = new List<Account> {
-            AccountFixtureFactory.newWithFakeId(StringGenerator.text(10))
+            CommonsFixtureFactory.newAccountWithFakeId(StringGenerator.text(10))
         };
 
         String eventName = 'SyncAccountOutbound';

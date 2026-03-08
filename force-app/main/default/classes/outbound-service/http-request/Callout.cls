@@ -29,9 +29,15 @@ public virtual class Callout {
 
         HttpRequest request = this.requestBuilder.build();
 
+        event.logRequest(this.requestBuilder.toString());
+
         HttpResponse response = new Http().send( request );
 
-        return responseBuilder.buildResponse(response);
+        Object result = responseBuilder.buildResponse(response);
+
+        event.logResponse(responseBuilder.toString());
+
+        return result;
 
     }
 

@@ -24,6 +24,20 @@ public class EventConfigurationFixtureFactory {
 
     }
 
+    public static EventConfiguration newOAuthEventConfigurationForOutbound (String developerName
+                                                                         , String responseClassName) {
+        
+        
+        EventConfiguration config = newEventConfigurationForOutbound (developerName, responseClassName);
+
+        config.getOutboundConfig().httpMethod('POST')
+                    .clientIdCredentialVariable(StringGenerator.text(10))
+                    .clientSecretCredentialVariable(StringGenerator.text(10));
+        
+        return config;
+
+    }
+   
     public static List<EventConfiguration> newEventConfigurations(List<String> eventNames) {
 
         List<EventConfiguration> eventConfigs = new List<EventConfiguration>();
@@ -34,5 +48,6 @@ public class EventConfigurationFixtureFactory {
         
         return eventConfigs;
     }
+
 
 }

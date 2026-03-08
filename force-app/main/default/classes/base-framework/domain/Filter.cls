@@ -55,7 +55,15 @@ public virtual class Filter {
 
     public List<SObject> byValue (List<SObject> records, String fieldName, Object value) { 
 
+        return byValues(records, fieldName, new List<Object> {value});
+
+    }
+
+    public List<SObject> byValues (List<SObject> records, String fieldName, List<Object> values) { 
+
         List<SObject> changedRecordsWithValue = new List<SObject>();
+
+        Set<Object> indexedValues = new Set<Object>(values);
 
         for (SObject record : records ) {
 
@@ -63,7 +71,7 @@ public virtual class Filter {
 
             if (recordValue == null) continue;
             
-            if ( recordValue == value ) {
+            if ( indexedValues.contains(recordValue) ) {
                 changedRecordsWithValue.add(record);
             }
 
@@ -72,6 +80,7 @@ public virtual class Filter {
         return changedRecordsWithValue;
 
     }
+
 
     public List<SObject> byNotNull (List<SObject> records, String fieldName) { 
 

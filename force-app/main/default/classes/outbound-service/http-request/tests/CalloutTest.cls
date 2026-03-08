@@ -84,6 +84,11 @@ public class CalloutTest {
 
         Exception exceptionToBeThrow;
 
+
+        public CalloutExceptionMock( EventQueue event ) {
+            this (event, new DefaultOutboundException ('Unable to process request'));
+        }
+
         public CalloutExceptionMock( EventQueue event , Exception exceptionToBeThrow ) {
             super( event );
             this.exceptionToBeThrow = exceptionToBeThrow;
@@ -101,7 +106,7 @@ public class CalloutTest {
 
     }
 
-
+    public class DefaultOutboundException extends Exception{}
 
 
 }

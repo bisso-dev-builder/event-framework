@@ -33,6 +33,7 @@ public inherited sharing virtual class EventQueueRepository
                     , OutboundConfig__r.HttpHeaders__c
                     , OutboundConfig__r.HttpMethod__c
                     , OutboundConfig__r.NamedCredencial__c
+                    , OutboundConfig__r.ExternalCredendialAPIName__c
                     , OutboundConfig__r.ResponseClassName__c
                     , OutboundConfig__r.Timeout__c
                     , OutboundConfig__r.UseEnvironmentWithCredential__c
