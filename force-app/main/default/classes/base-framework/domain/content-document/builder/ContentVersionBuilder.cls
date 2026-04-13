@@ -3,7 +3,7 @@ public class ContentVersionBuilder {
 
     public ContentVersionBuilder() {
         this.contentVersion = new ContentVersion();
-        this.contentVersion.ContentLocation = 'S';
+        withContentLocation('S');
     }
 
     public static ContentVersionBuilder create() {

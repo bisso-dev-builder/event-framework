@@ -3,7 +3,8 @@
  */
 public class CharType {
     
-    public static final String NUMERIC = '0123456789';
+    public static final String NUMERIC_WITHOUT_ZERO = '123456789';
+    public static final String NUMERIC = '0'+ NUMERIC_WITHOUT_ZERO;
     public static final String ALPHA_LOWER = 'abcdefghijklmnopqrstuvwxyz';
     public static final String ALPHA_UPPER = ALPHA_LOWER.toUpperCase();
     public static final String ALPHA = ALPHA_LOWER + ALPHA_UPPER;

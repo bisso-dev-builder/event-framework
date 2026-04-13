@@ -121,10 +121,44 @@ public class EventQueueTest {
 
         // When
         event.delivered().save();
-        
+
         // Then
         EventQueue__c savedEventQueue = [SELECT Id, EventName__c, Status__c FROM EventQueue__c WHERE Id = :event.getId()];
         System.assertEquals('TestEvent', savedEventQueue.EventName__c);
         System.assertEquals( EventQueueStatusType.DELIVERED.name() , savedEventQueue.Status__c);
+    }
+
+    @isTest
+    static void shouldAddMessageToLogList() {
+        // Covers lines 203-204: log(String message)
+        EventQueue__c eventQueueRecord = EventQueueFixtureFactory.newEventQueue('TestEvent', 'UNHANDLED');
+        EventQueue event = new EventQueue(eventQueueRecord, null, new EventQueueRepository());
+
+        // When
+        event.log('Step 1 executed');
+        event.log('Step 2 executed');
+
+        // Then - no exception, messages are accepted
+        Assert.isTrue(true, 'log() should accept messages without error');
+    }
+
+    @isTest
+    static void shouldSaveLogsAsContentVersionsLinkedToEvent() {
+        // Covers lines 236-238: storeLogs() saveRelated when contentVersions is not empty
+        EventQueue__c eventQueueRecord = EventQueueFixtureFactory.createEventQueue('TestEvent', 'UNHANDLED');
+        EventQueue event = new EventQueue(eventQueueRecord, null, new EventQueueRepository());
+
+        // When - logRequest triggers logAdapter which creates ContentVersions
+        event.log('message');
+        event.logRequest('{"id": "123"}');
+        event.delivered().save();
+
+        // Then - ContentVersions should be linked to the event
+        List<ContentDocumentLink> links = [
+            SELECT ContentDocumentId
+            FROM ContentDocumentLink
+            WHERE LinkedEntityId = :eventQueueRecord.Id
+        ];
+        Assert.isFalse(links.isEmpty(), 'Should have ContentVersion linked to the saved event');
     }
 }

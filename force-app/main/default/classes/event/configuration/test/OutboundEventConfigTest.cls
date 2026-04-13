@@ -2,7 +2,7 @@
 public class OutboundEventConfigTest {
 
     @isTest
-    static void shouldInitializeWithDefaultValues() {
+    static void shouldInitializeWithDefaultValues() {   
         // Dado (Given)
         OutboundEventConfig config = new OutboundEventConfig();
 
@@ -55,4 +55,52 @@ public class OutboundEventConfigTest {
         // Então (Then)
         System.assert(!config.getEndPointUrl().contains('_test'), 'Named Credential não deve incluir o ambiente quando não configurado');
     }
+
+    @isTest
+    static void shouldApplyEnvironmentToExternalCredentialVariable() {
+        // Covers lines 165, 167: applyEnvironmentInExternalCredetial when externalCredentialName is set
+        // Given
+        OutboundEventConfig config = new OutboundEventConfig()
+            .clientIdCredentialVariable('MyCredential.client_id')
+            .clientSecretCredentialVariable('MyCredential.client_secret')
+            .externalCredentialName('MyCredential');
+
+        config.environmentResolver = OutboundEnvironmentResolverTest.newOutboundEnvironmentResolver();
+
+        // When
+        String clientId = config.getClientIdCredentialVariable();
+        String clientSecret = config.getClientSecretCredentialVariable();
+
+        // Then
+        Assert.isTrue(clientId.contains('MyCredential_DEV'),
+            'Client ID credential variable should have environment suffix applied');
+        Assert.isTrue(clientSecret.contains('MyCredential_DEV'),
+            'Client secret credential variable should have environment suffix applied');
+    }
+
+    @isTest
+    static void shouldSkipEnvironmentSetup() {
+        OutboundEventConfig config = new OutboundEventConfig()
+            .clientIdCredentialVariable('MyCredential.client_id')
+            .clientSecretCredentialVariable('MyCredential.client_secret')
+            .externalCredentialName('');
+
+        // When
+        String clientId = config.getClientIdCredentialVariable();
+        String clientSecret = config.getClientSecretCredentialVariable();
+
+        // Then
+        Assert.isFalse(clientId.contains('MyCredential_DEV'),
+            'Client ID credential variable should have environment suffix applied');
+        Assert.isFalse(clientSecret.contains('MyCredential_DEV'),
+            'Client secret credential variable should have environment suffix applied');
+
+
+        Assert.isTrue(clientId.contains('MyCredential'),
+            'Client ID credential variable should have environment suffix applied');
+        Assert.isTrue(clientSecret.contains('MyCredential'),
+            'Client secret credential variable should have environment suffix applied');            
+
+    }
+
 }

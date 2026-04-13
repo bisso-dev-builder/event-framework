@@ -37,4 +37,27 @@ public class EventQueueInterceptorTest {
 
     }
 
+    @isTest
+    public static void shouldAutoSchedule () {
+
+        EventDequeuer.executedFutureCalls = 46;
+
+        List<EventQueue__c> events = EventQueueFixtureFactory.newEventQueues(10);
+
+        new EventQueueInterceptor().onFutureLimitClosedAutoScheduleEvents(events);
+
+        Filter filter = new Filter();
+        
+        List<EventQueue__c> queuedEvents = filter.byValue(events, 'Status__c', EventQueueStatusType.QUEUED.name());
+
+        List<EventQueue__c> scheduledEvents = filter.byValue(events, 'Status__c', EventQueueStatusType.SCHEDULED.name());
+        
+        Assert.areEqual(0, queuedEvents.size());
+
+        Assert.areEqual(10, scheduledEvents.size());
+
+
+        
+    }
+
 }

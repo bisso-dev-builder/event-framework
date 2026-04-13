@@ -150,7 +150,7 @@ public class AbstractRepositoryTest {
         Assert.isTrue( new Filter().hasError(contacts) );
         
     }
-   
+       
     public virtual class AccountRepository extends AbstractRepository {
 
     }

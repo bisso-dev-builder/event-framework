@@ -27,7 +27,18 @@ public class HttpRequestBuilderTest {
         Assert.areEqual('application/json', request.getHeader('Content-Type'));
         Assert.areEqual('POST', request.getMethod());
         Assert.areEqual( JSON.serialize(payload), request.getBody());
-        
+
     }
+
+    @isTest
+    static void shouldReturnEndpointViaGetEndpoint() {
+        // Covers lines 21-22: getEndPoint() method
+        HttpRequestBuilder builder = new HttpRequestBuilder()
+            .withEndPoint('https://example.com/api');
+
+        Assert.areEqual('https://example.com/api', builder.getEndPoint(),
+            'getEndPoint should return the configured endpoint');
+    }
+
 
 }

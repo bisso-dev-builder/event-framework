@@ -16,19 +16,26 @@ public class StringGenerator {
     }
 
     public static Decimal numeric (Integer length, Integer decimalPlaces) {
+
+        if (length <= 0) return  0;
         
         if ( decimalPlaces == null || decimalPlaces < 0 ) {
             decimalPlaces = 0;
         }
-
+        
         String decimalPlacesValue = (decimalPlaces == 0) ? '0' : generate (decimalPlaces, CharType.NUMERIC);
-        String integerValue = generate(length - decimalPlaces, CharType.NUMERIC);
+        
+        String firstIntegerDigit =  generate (1, CharType.NUMERIC_WITHOUT_ZERO);
+
+        String integerValue = firstIntegerDigit + generate((length -1) - decimalPlaces, CharType.NUMERIC);
 
         return Decimal.valueOf(integerValue + '.' + decimalPlacesValue);
 
     }
 
     public static String generate (Integer length, String chars ) {
+
+        if (length <= 0) length = 1;
 
         String result = '';
 
