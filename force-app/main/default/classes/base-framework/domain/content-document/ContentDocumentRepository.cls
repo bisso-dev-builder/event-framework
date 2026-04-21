@@ -1,7 +1,4 @@
 public inherited sharing virtual class ContentDocumentRepository extends AbstractRepository {
-    
-    public ContentDocumentRepository() {
-    }
 
     virtual
 	public List<ContentVersion> findVersionsById (List<String> ids) {
@@ -16,5 +13,15 @@ public inherited sharing virtual class ContentDocumentRepository extends Abstrac
     public ContentVersion findVersionId (String id) {	
         return (ContentVersion) Lists.getFirstOrNull ( findVersionsById (new List<String> {id}) );
     }
-    
+        
+    virtual
+	public List<ContentVersion> findFirstPublishLocationIds (List<String> ids) {
+        return [
+            SELECT Id, FirstPublishLocationId
+            FROM ContentVersion
+            WHERE FirstPublishLocationId IN :ids
+        ];
+    }
+
+
 }

@@ -10,10 +10,11 @@ public class AbstractRepositoryTest {
         Account account = CommonsFixtureFactory.newAccount ('One');
 
         AccountRepository repository = new AccountRepository();
+        repository.withAllOrNoneEnabled();
 
         repository.save (account);
 
-        System.assert ( account.Id != null);
+        System.assert ( account.Id != null);    
 
         account.Name = 'One Plus';
         repository.save (account);

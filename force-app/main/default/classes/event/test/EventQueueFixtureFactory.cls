@@ -6,21 +6,19 @@ public class EventQueueFixtureFactory {
     }
 
     public static EventQueue__c newEventQueue (String name) {
-        return new EventQueue__c(
-            EventName__c = name,
-            Status__c = EventQueueStatusType.QUEUED.name(),
-            RetryCount__c = 10,
-            ExternalId__c = StringGenerator.text(10),
-            SalesforceObjectId__c = IdGenerator.generate ( new Order() ).Id            
-        );
+        return newEventQueue(name, EventQueueStatusType.QUEUED.name() );
     }
 
     public static EventQueue__c newEventQueue (String name, String status) {
         
-        EventQueue__c event = newEventQueue(name);
-        event.Status__c = status;
+        return new EventQueue__c(
+            EventName__c = name,
+            Status__c = status,
+            RetryCount__c = 10,
+            ExternalId__c = StringGenerator.text(10),
+            SalesforceObjectId__c = IdGenerator.generate ( new Order() ).Id            
+        );
 
-        return event;
     }
     
     public static List<EventQueue__c> newEventQueues(Integer count) {

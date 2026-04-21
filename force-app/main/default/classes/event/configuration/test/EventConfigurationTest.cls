@@ -16,18 +16,20 @@ public class EventConfigurationTest {
     static void shouldCreateEventConfigurationFromMdt() {
         // Given
         EventConfiguration__mdt config = EventConfigurationFixtureFactory.newEventConfigurationMdt('TestEvent');
-
+        EventOutboundConfig__mdt outboundConfig = OutboundEventConfigFixtureFactory.newEventOutboundConfig('OutboundService');
+        config.OutboundConfig__r = outboundConfig;
+        
         // When
         EventConfiguration eventConfig = new EventConfiguration(config);
 
         // Then
-        System.assertEquals('TestEvent', eventConfig.getEventName(), 'Event name should match');
-        System.assertEquals('CommandFixtureFactory.FakeCommand', eventConfig.getCommandClassName(), 'Command class name should match');
-        System.assertEquals(5, eventConfig.getRetry(), 'Retry count should match');
-        System.assertEquals(true, eventConfig.isEnableTraceLog(), 'EnableTraceLog should match');
-        System.assertEquals('TestOAuthEvent', eventConfig.getOAuthEventName(), 'OAuthEventName should match');
-        System.assertEquals(false, eventConfig.isDisabled(), 'Disabled should match');
-        System.assertEquals(null, eventConfig.getOutboundConfig(), 'Expected null outbound config');
+        Assert.areEqual('TestEvent', eventConfig.getEventName(), 'Event name should match');
+        Assert.areEqual('CommandFixtureFactory.FakeCommand', eventConfig.getCommandClassName(), 'Command class name should match');
+        Assert.areEqual(5, eventConfig.getRetry(), 'Retry count should match');
+        Assert.areEqual(true, eventConfig.isEnableTraceLog(), 'EnableTraceLog should match');
+        Assert.areEqual('TestOAuthEvent', eventConfig.getOAuthEventName(), 'OAuthEventName should match');
+        Assert.areEqual(false, eventConfig.isDisabled(), 'Disabled should match');
+        Assert.isNotNull( eventConfig.getOutboundConfig(), 'Expected outbound config');
     }
 
     @isTest

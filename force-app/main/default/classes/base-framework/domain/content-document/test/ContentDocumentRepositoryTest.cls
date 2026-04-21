@@ -45,35 +45,6 @@ public class ContentDocumentRepositoryTest {
         System.assertEquals(1, links.size(), 'Should create one ContentDocumentLink');
     }
 
-    @isTest
-    static void shouldSaveContentDocumentLinkUsingRepository() {
 
-        ContentVersion contentVersion = ContentVersionFixtureFactory.createContentVersion();
-        
-        Account account = CommonsFixtureFactory.save('Linked Account');
-
-        ContentDocumentRepository repository = new ContentDocumentRepository();
-
-        ContentVersion stored = repository.findVersionId (contentVersion.Id);
-        
-        ContentDocumentLink link = ContentDocumentLinkFixtureFactory.newContentDocumentLink(
-            stored.ContentDocumentId,
-            account.Id
-        );
-
-        repository.save(link);
-
-        Assert.isNotNull(link.Id, 'ContentDocumentLink Id should not be null');
-
-        List<ContentDocumentLink> storedLinks = [
-            SELECT Id, ContentDocumentId, LinkedEntityId, ShareType, Visibility
-            FROM ContentDocumentLink
-            WHERE Id = :link.Id
-        ];
-
-        System.assertEquals(1, storedLinks.size(), 'Should have one stored ContentDocumentLink');
-        System.assertEquals(stored.ContentDocumentId, storedLinks[0].ContentDocumentId);
-        System.assertEquals(account.Id, storedLinks[0].LinkedEntityId);
-    }
 
 }

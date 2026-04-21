@@ -27,6 +27,109 @@ public class EventQueueRepositoryTest {
         System.assertEquals(2, events.size(), 'Should return 2 events');
     }
 
+    @isTest
+    public static void shouldFindEventsToPurgeByDate () {
+
+        EventQueue__c expectedEvent = EventQueueFixtureFactory.createEventQueue('TestEvent');
+        
+        EventQueue__c todayEvent = EventQueueFixtureFactory.createEventQueue('TestEvent01');
+
+        Test.setCreatedDate(expectedEvent.Id, Datetime.now().addDays(-2));
+
+        EventQueueRepository repository = new EventQueueRepository();
+
+        Datetime tmpVar1 = Datetime.newInstance( Date.today(), Time.newInstance(0, 0, 0, 0) );
+
+        Database.QueryLocator queryLocator = repository.findByLessThanDate(tmpVar1);
+
+        String query = queryLocator.getQuery();
+
+        List<EventQueue__c> events = Database.query(query);
+
+        Assert.areEqual(1, events.size(), 'Expected one record');
+
+        Assert.areEqual(expectedEvent.Id , events.get(0).Id);     
+
+    }
+
+    @isTest
+    public static void shouldFindEventsByStatus () {
+        
+        EventQueue__c expectedEvent = EventQueueFixtureFactory.createEventQueue('CREATE_ORDER', EventQueueStatusType.SCHEDULED.name());
+
+        EventQueueRepository repository = new EventQueueRepository();
+
+        List<EventQueue__c> events = repository.findByStatus ( new List<String> {EventQueueStatusType.SCHEDULED.name()}, 2);
+
+        Assert.areEqual(1, events.size());
+
+        Assert.areEqual(expectedEvent.Id, events.get(0).Id);
+        Assert.areEqual( EventQueueStatusType.SCHEDULED.name(), events.get(0).Status__c);
+        
+    }
+
+    @isTest
+    public static void shouldFindEventsToPurgeByDateAndEventName () {
+
+        List<EventQueue__c> expectedEvents = EventQueueFixtureFactory.createEventQueues(2);
+        
+        Test.setCreatedDate(expectedEvents.get(0).Id, Datetime.now().addDays(-2));
+
+        String eventName = expectedEvents.get(0).EventName__c;
+
+        EventQueueRepository repository = new EventQueueRepository();
+
+        // --- tmpVar is needed to QueryLocator dynamic Query
+
+        Datetime tmpVar1 = Datetime.newInstance( Date.today(), Time.newInstance(0, 0, 0, 0) );
+
+        List<String> tmpVar2 = new List<String> {eventName};
+
+        Database.QueryLocator queryLocator = repository.findByLessThanDateAndEventType( tmpVar1, tmpVar2 );
+
+        String query = queryLocator.getQuery();
+
+        List<EventQueue__c> events = Database.query(query);
+
+        Assert.areEqual(1, events.size(), 'Expected one record');
+
+        Assert.areEqual(expectedEvents.get(0).Id , events.get(0).Id);
+
+    }
+
+
+    @isTest
+    public static void shouldSaveWithExternalId () {
+
+        EventQueue__c event = EventQueueFixtureFactory.newEventQueue('Event1');
+        event.ExternalId__c = StringGenerator.text(10);
+
+        EventQueueRepository repository = new EventQueueRepository();
+        
+        repository.save(event, EventQueue__c.ExternalId__c.getDescribe().getSObjectField() );
+
+        Assert.isNotNull(event.Id, 'Expected Event Creation');
+
+    }
+
+
+    @isTest
+    public static void shouldFindAllEventsPendingRetry () {
+
+        EventQueue__c expectedEvent = EventQueueFixtureFactory.newEventQueue('CREATE_ORDER', EventQueueStatusType.ERROR.name());
+        expectedEvent.RetryCount__c = 3;
+        EventQueueFixtureFactory.save (expectedEvent);
+
+        EventQueueRepository repository = new EventQueueRepository();
+
+        List<EventQueue__c> events = repository.findByPendingRetry(2);
+
+        Assert.areEqual(1, events.size());
+
+        Assert.areEqual(expectedEvent.Id, events.get(0).Id);
+        Assert.areEqual( EventQueueStatusType.ERROR.name(), events.get(0).Status__c);
+        
+    }
 
     public class EventQueueRepositoryConfigMock extends EventQueueRepository {
 

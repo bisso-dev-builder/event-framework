@@ -53,7 +53,46 @@ public inherited sharing virtual class EventQueueRepository
 
     }
 
+    virtual
+    public List<EventQueue__c> findByStatus ( List<String> status, Integer limitSize ) {
+
+        return  [SELECT Id, EventName__c, ExternalId__c
+                    , DocumentNumber__c, CorrelatedNumber__c, SalesforceObjectId__c
+                    , RetryCount__c, Status__c        
+                FROM EventQueue__c
+                WHERE Status__c IN :status
+                ORDER BY CreatedDate ASC
+                LIMIT :limitSize];
+
+    }
+
+    virtual
+    public List<EventQueue__c> findByPendingRetry ( Integer limitSize ) {
+
+        return  [SELECT Id, EventName__c, ExternalId__c
+                    , DocumentNumber__c, CorrelatedNumber__c, SalesforceObjectId__c
+                    , RetryCount__c, Status__c        
+                FROM EventQueue__c
+                WHERE Status__c = :EventQueueStatusType.ERROR.name()
+                AND RetryCount__c > 0
+                AND IsRetryDisabled__c = false
+                ORDER BY CreatedDate ASC
+                LIMIT :limitSize];
+
+    }
 
 
+    virtual
+    public Database.QueryLocator findByLessThanDateAndEventType ( DateTime createDate, List<String> eventNames ) {
+        return  Database.getQueryLocator ( [ SELECT Id, CreatedDate 
+                                                FROM EventQueue__c 
+                                                WHERE CreatedDate < :createDate 
+                                                    AND EventName__c in :eventNames]);
+    }
+
+    virtual
+    public Database.QueryLocator findByLessThanDate ( DateTime createDate ) {
+        return  Database.getQueryLocator ( [ SELECT Id, CreatedDate FROM EventQueue__c WHERE CreatedDate < :createDate ORDER BY CreatedDate ASC ]);
+    }
 
 }

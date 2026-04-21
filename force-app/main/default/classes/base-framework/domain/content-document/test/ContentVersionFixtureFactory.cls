@@ -44,12 +44,4 @@ public class ContentVersionFixtureFactory {
         ];
     }
 
-    public static List<ContentVersion> findById (List<String> ids) {
-        return [
-            SELECT Id, Title, ContentDocumentId
-            FROM ContentVersion
-            WHERE Id IN :ids
-        ];
-    }
-
 }

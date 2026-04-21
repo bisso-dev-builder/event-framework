@@ -45,7 +45,7 @@ public class Logger {
     }
 
     public void error ( String message, Exception ex, Map<String, Object> payload ) {
-        log ( new Log().exception(ex).message(message).parameters(payload) );c
+        log ( new Log().exception(ex).message(message).parameters(payload) );
     }
 
     public void debug ( String message ) {

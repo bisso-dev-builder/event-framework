@@ -15,21 +15,26 @@ public class StringGenerator {
         return numeric (length, 0).longValue();
     }
 
-    public static Decimal numeric (Integer length, Integer decimalPlaces) {
+    public static Decimal numeric(Integer totalLength, Integer decimalPlaces) {
+        if (totalLength <= 0) return 0;
 
-        if (length <= 0) return  0;
-        
-        if ( decimalPlaces == null || decimalPlaces < 0 ) {
+        if (decimalPlaces == null || decimalPlaces < 0) {
             decimalPlaces = 0;
         }
-        
-        String decimalPlacesValue = (decimalPlaces == 0) ? '0' : generate (decimalPlaces, CharType.NUMERIC);
-        
-        String firstIntegerDigit =  generate (1, CharType.NUMERIC_WITHOUT_ZERO);
 
-        String integerValue = firstIntegerDigit + generate((length -1) - decimalPlaces, CharType.NUMERIC);
+        Integer integerLength = Math.max(totalLength - decimalPlaces, 1);
 
-        return Decimal.valueOf(integerValue + '.' + decimalPlacesValue);
+        String integerPart = generate(1, CharType.NUMERIC_WITHOUT_ZERO);
+        
+        if (integerLength > 1) {
+            integerPart += generate(integerLength - 1, CharType.NUMERIC);
+        }
+
+        String decimalPart = decimalPlaces > 0
+                                ? generate(decimalPlaces, CharType.NUMERIC)
+                                : '0';
+
+        return Decimal.valueOf(integerPart + '.' + decimalPart);
 
     }
 

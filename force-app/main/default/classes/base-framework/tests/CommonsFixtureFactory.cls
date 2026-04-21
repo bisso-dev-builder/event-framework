@@ -14,7 +14,7 @@ public class CommonsFixtureFactory {
         return new Account(
                    Name = name
                    , BillingCountry = 'Brazil'
-                   , BillingPostalCode = StringGenerator.numeric(8).toString());
+                   , BillingPostalCode = BrazilianPostalCodeGenerator.postalCode() );
     }
 
     public static Account save(String name) {
